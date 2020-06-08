@@ -16,6 +16,6 @@ int main(int argc, char* argv[])
         cout << e.message() << endl;
         cout << e.location() << endl;
     }
-    
+
     return 0;
 }

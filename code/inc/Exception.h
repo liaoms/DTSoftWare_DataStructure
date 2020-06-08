@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "Object.h"
 
 namespace LMSLib
 {
@@ -11,7 +12,7 @@ namespace LMSLib
 #define THROW_EXCEPTION(e, msg) (throw e(msg, __FILE__, __LINE__))
 
 //异常基类
-class Exception
+class Exception : public Object
 {
 private:
     void init(const char* msg, const char* file, const int line);
