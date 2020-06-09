@@ -53,7 +53,7 @@ public:
             e = m_pArray[index];
             for(int i=index; i<=m_length; i++)
             {
-                m_pArray[index] = m_pArray[index+1];
+                m_pArray[i] = m_pArray[i+1];
             }
             m_length--;
         }
@@ -96,7 +96,14 @@ public:
     int find(const T e) const
     {
         int index = -1;
-
+        for(int i=0; i<m_length; i++)
+        {
+            if(e == m_pArray[i])
+            {
+                index = i;
+                break;
+            }
+        }
         return index;
     }
     int length() const

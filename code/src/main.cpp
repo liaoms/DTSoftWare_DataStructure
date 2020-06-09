@@ -11,17 +11,26 @@ int main(int argc, char* argv[])
 {
     try
     {
-        SmartPointer<int> p = new int(12);
-        SmartPointer<int> q = new int(13);
-        cout << "p = " << p.get() << endl;
-        cout << "q = " << q.get() << endl;
+        StaticList<int, 10> list1;
 
-        q = p;
+        for(int i=0; i<list1.capacity(); i++)
+        {
+            list1.insert(i);
+        }
 
-        cout << "p = " << p.get() << endl;
-        cout << "q = " << q.get() << endl;
+        list1.remove(2);
+        list1.insert(3,23);
 
-        THROW_EXCEPTION(NoEnoughMemeryException, "NO Enough Memery to use!");
+        for(int i=0; i<list1.length(); i++)
+        {
+            int tmp;
+            list1.get(i, tmp);
+
+            cout << tmp << " ";
+        }
+        cout << endl;
+
+        cout << "list1.find(23) = " << list1.find(23) << endl;
     }
     catch(Exception& e)
     {
