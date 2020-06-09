@@ -1,6 +1,7 @@
 #include "Exception.h"
 #include <iostream>
 #include "SmartPointer.h"
+#include "StaticList.h"
 
 using namespace std;
 using namespace LMSLib;
