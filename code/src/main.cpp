@@ -3,6 +3,7 @@
 #include "SmartPointer.h"
 #include "StaticList.h"
 #include "DynamicList.h"
+#include "StaticArray.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -13,27 +14,21 @@ int main(int argc, char* argv[])
     try
     {
         //StaticList<int, 10> list1;
-        DynamicList<int> list1(10);
+        //DynamicList<int> list1(10);
 
-        for(int i=0; i<list1.capacity(); i++)
+        StaticArray<int, 10> array;
+
+        for(int i=0; i<array.length(); i++)
         {
-            list1.insert(i);
+            array[i] = i;
         }
 
-        list1.remove(2);
-        list1.insert(3,23);
-        list1.resize(10);
-
-        for(int i=0; i<list1.length(); i++)
+        for(int i=0; i<array.length(); i++)
         {
-            //int tmp;
-            //list1.get(i, tmp);
-            list1[2] = 12;  
-            cout << list1[i] << " ";
+            //list1[2] = 12;  
+            cout << array[i] << " ";
         }
         cout << endl;
-
-        cout << "list1.find(23) = " << list1.find(23) << endl;
     }
     catch(Exception& e)
     {

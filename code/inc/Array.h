@@ -17,7 +17,7 @@ public:
     virtual int length() = 0;
 
 protected:
-    T* m_array;
+    T* m_pArray;
     int m_length;
 };
 
