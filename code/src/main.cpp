@@ -5,6 +5,7 @@
 #include "DynamicList.h"
 #include "StaticArray.h"
 #include "DynamicArray.h"
+#include "LinkList.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -18,22 +19,31 @@ int main(int argc, char* argv[])
         //DynamicList<int> list1(10);
 
         //StaticArray<int, 10> array;
-        DynamicArray<int> array(10);
+        //DynamicArray<int> array(10);
 
-        for(int i=0; i<array.length(); i++)
+        LinkList<int> link;
+
+        for(int i=0; i<10; i++)
         {
-            array[i] = i;
+            link.insert(i);
         }
 
-        DynamicArray<int> array1(array);
+        link.insert(2, 22);
+        link.insert(0, 11);
+        link.insert(link.length(), 99);
+        link.set(4, 44);
+        link.remove(2);
 
-        array1.resize(4);   
-        for(int i=0; i<array1.length(); i++)
+        for(int i=0; i<link.length(); i++)
         {
-            //list1[2] = 12;  
-            cout << array1[i] << " ";
+            int tmp;
+            link.get(i, tmp);
+            cout << tmp << " ";
         }
         cout << endl;
+
+        cout << link.find(99) << endl;
+        cout << link.find(123) << endl;
     }
     catch(Exception& e)
     {

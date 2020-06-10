@@ -9,13 +9,11 @@ namespace LMSLib
 {
 void* Object::operator new (unsigned int size) throw()
 {
-    cout << "Object::operator new" << endl;
     return malloc(size);
 }
 
 void Object::operator delete (void *p)
 {
-    cout << "Object::operator delete" << endl;
     free(p);
 }
 
