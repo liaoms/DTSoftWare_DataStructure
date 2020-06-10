@@ -26,10 +26,10 @@ int main(int argc, char* argv[])
 
         for(int i=0; i<list1.length(); i++)
         {
-            int tmp;
-            list1.get(i, tmp);
-
-            cout << tmp << " ";
+            //int tmp;
+            //list1.get(i, tmp);
+            list1[2] = 12;  
+            cout << list1[i] << " ";
         }
         cout << endl;
 

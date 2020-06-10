@@ -93,6 +93,26 @@ public:
 
         return ret;
     }
+
+    T& operator [](int index)
+    {
+        bool ret = (index >= 0) && (index < m_length);
+
+        if(ret)
+        {
+            return m_pArray[index];
+        }
+        else
+        {
+            THROW_EXCEPTION(IndexOutOfBoundsException, "Index Out Of Bounds!");
+        }
+    }
+
+    T operator [](int index) const
+    {
+        return (const_cast<SeqList<T>&>(*this))[index];
+    }
+
     int find(const T e) const
     {
         int index = -1;
