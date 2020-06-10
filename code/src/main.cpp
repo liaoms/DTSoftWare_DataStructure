@@ -2,6 +2,7 @@
 #include <iostream>
 #include "SmartPointer.h"
 #include "StaticList.h"
+#include "DynamicList.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -11,7 +12,8 @@ int main(int argc, char* argv[])
 {
     try
     {
-        StaticList<int, 10> list1;
+        //StaticList<int, 10> list1;
+        DynamicList<int> list1(10);
 
         for(int i=0; i<list1.capacity(); i++)
         {
@@ -20,6 +22,7 @@ int main(int argc, char* argv[])
 
         list1.remove(2);
         list1.insert(3,23);
+        list1.resize(10);
 
         for(int i=0; i<list1.length(); i++)
         {

@@ -11,3 +11,6 @@
 	1、线性表基类List.h修正
 	2、顺序线性表类SeqList.h编写
 	3、静态顺序表StaticList.h实现
+
+# 20200610
+	1、动态顺序表DynamicList.h实现
