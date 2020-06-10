@@ -4,6 +4,7 @@
 #include "StaticList.h"
 #include "DynamicList.h"
 #include "StaticArray.h"
+#include "DynamicArray.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -16,17 +17,17 @@ int main(int argc, char* argv[])
         //StaticList<int, 10> list1;
         //DynamicList<int> list1(10);
 
-        StaticArray<int, 10> array;
+        //StaticArray<int, 10> array;
+        DynamicArray<int> array(10);
 
         for(int i=0; i<array.length(); i++)
         {
             array[i] = i;
         }
 
-        StaticArray<int, 10> array1;
+        DynamicArray<int> array1(array);
 
-        array1 = array;
-
+        array1.resize(4);   
         for(int i=0; i<array1.length(); i++)
         {
             //list1[2] = 12;  
