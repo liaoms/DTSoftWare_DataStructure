@@ -23,10 +23,14 @@ int main(int argc, char* argv[])
             array[i] = i;
         }
 
-        for(int i=0; i<array.length(); i++)
+        StaticArray<int, 10> array1;
+
+        array1 = array;
+
+        for(int i=0; i<array1.length(); i++)
         {
             //list1[2] = 12;  
-            cout << array[i] << " ";
+            cout << array1[i] << " ";
         }
         cout << endl;
     }

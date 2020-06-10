@@ -17,6 +17,30 @@ public:
         this->m_length = N;
     }
 
+    StaticArray(const StaticArray<T,N>& obj)
+    {
+        this->m_pArray = m_array;
+        this->m_length = N;
+        
+        for(int i=0; i<obj.m_length; i++)
+        {
+            this->m_pArray[i] = obj[i];
+        }
+    }
+
+    StaticArray<T, N>& operator = (const StaticArray<T, N>& obj)
+    {
+        if(this != &obj)
+        {
+            for(int i=0; i<obj.m_length; i++)
+            {
+                this->m_pArray[i] = obj[i];
+            }
+        }
+
+        return *this;
+    }
+
     bool set(int index, const T& e)
     {
         bool ret = (index >= 0) && (index < this->m_length);
