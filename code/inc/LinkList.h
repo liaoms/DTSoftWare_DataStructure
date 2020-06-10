@@ -29,8 +29,17 @@ protected:
         STNode* next;
     }m_header;
 
+    STNode* position(int index) const
+    {
+        STNode* pos = reinterpret_cast<STNode*>(&m_header);
+        for(int i=0; i<index; i++)
+        {
+            pos = pos->next; 
+        }
+        return pos;
+    }
+
 private:
-    //STHeader m_header;
     int m_length;
 
 public:
@@ -38,6 +47,7 @@ public:
     LinkList()
     {
         m_length = 0;
+        m_header.next = NULL;
     }
 
     bool insert(const T e) 
@@ -51,11 +61,7 @@ public:
 
         if(ret)
         {
-            STNode* pos = reinterpret_cast<STNode*>(&m_header);
-            for(int i=0; i<index; i++)
-            {
-                pos = pos->next; 
-            }
+            STNode* pos = position(index);
 
             STNode* newNode = new STNode(e);
             newNode->next = pos->next;
@@ -81,12 +87,7 @@ public:
         bool ret = (index >= 0) && (index < m_length);
         if(ret)
         {
-            STNode* pos = reinterpret_cast<STNode*>(&m_header);
-
-            for(int i=0; i<index; i++)
-            {
-                pos = pos->next;
-            }
+            STNode* pos = position(index);
 
             STNode* toDel = pos->next;
             pos->next = toDel->next;
@@ -109,12 +110,7 @@ public:
 
         if(ret)
         {
-            STNode* pos = reinterpret_cast<STNode*>(&m_header);
-
-            for(int i=0; i<index; i++)
-            {
-                pos = pos->next;
-            }
+            STNode* pos = position(index);
 
             pos->next->value = e;
         }
@@ -131,12 +127,7 @@ public:
 
         if(ret)
         {
-            STNode* pos = reinterpret_cast<STNode*>(&m_header);
-
-            for(int i=0; i<index; i++)
-            {
-                pos = pos->next;
-            }
+            STNode* pos = position(index);
 
             e = pos->next->value;
         }
