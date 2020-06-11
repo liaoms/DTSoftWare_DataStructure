@@ -51,6 +51,7 @@ protected:
             {
                 m_use[i] = 0;
                 sp->~SSTNode();
+                break;
             }
         }
     }

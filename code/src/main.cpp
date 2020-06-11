@@ -30,6 +30,11 @@ int main(int argc, char* argv[])
             link.insert(i);
         }
 
+        link.mov(3);
+        cout << link.current() << endl;
+        link.remove(link.find(link.current()));
+        cout << link.current() << endl;
+
         link.remove(2);
         link.insert(12);
 
