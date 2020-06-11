@@ -29,6 +29,18 @@ protected:
         STNode* next;
     }m_header;
 
+
+    virtual STNode* create(const T& e)
+    {
+        return new STNode(e);
+    }
+
+    virtual void destroy(STNode* p)
+    {   
+        delete p;
+        p = NULL;
+    }
+
     STNode* position(int index) const
     {
         STNode* pos = reinterpret_cast<STNode*>(&m_header);
@@ -66,7 +78,7 @@ public:
         {
             STNode* pos = position(index);
 
-            STNode* newNode = new STNode(e);
+            STNode* newNode = create(e);
             newNode->next = pos->next;
             if(pos == m_curNode)
             {
@@ -103,8 +115,7 @@ public:
             }
             pos->next = toDel->next;
             e = toDel->value;
-            delete toDel;
-            toDel = NULL;
+            destroy(toDel);
 
             m_length--;
         }
