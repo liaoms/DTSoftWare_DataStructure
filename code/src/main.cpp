@@ -6,6 +6,7 @@
 #include "StaticArray.h"
 #include "DynamicArray.h"
 #include "LinkList.h"
+#include "StaticLinkList.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -21,12 +22,16 @@ int main(int argc, char* argv[])
         //StaticArray<int, 10> array;
         //DynamicArray<int> array(10);
 
-        LinkList<int> link;
+        //LinkList<int> link;
 
-        for(int i=0; i<10; i++)
+        StaticLinkList<int, 10> link;
+        for(int i=0; i<link.cpacity(); i++)
         {
             link.insert(i);
         }
+
+        link.remove(2);
+        link.insert(12);
 
         for(link.mov(0); !link.end(); link.next())
         {

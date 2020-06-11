@@ -9,18 +9,13 @@ namespace LMSLib
 
 
 template <typename T>
-class LinkList : List<T>
+class LinkList : public List<T>
 {
 protected:
     struct STNode : public Object
     {
         T value;
         STNode* next;
-
-        STNode(T e) : value(e), next(NULL)
-        {
-
-        }
     };
 
     mutable struct : public Object
@@ -29,16 +24,17 @@ protected:
         STNode* next;
     }m_header;
 
-
     virtual STNode* create(const T& e)
     {
-        return new STNode(e);
+        STNode* ret = new STNode();
+        ret->next = NULL;
+        ret->value = e;
+        return ret;
     }
 
     virtual void destroy(STNode* p)
     {   
         delete p;
-        p = NULL;
     }
 
     STNode* position(int index) const
@@ -247,7 +243,7 @@ public:
         }
     }
 
-    ~LinkList()
+    virtual ~LinkList()
     {
         clear();
     }
