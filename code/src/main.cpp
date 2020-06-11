@@ -28,22 +28,16 @@ int main(int argc, char* argv[])
             link.insert(i);
         }
 
-        link.insert(2, 22);
-        link.insert(0, 11);
-        link.insert(link.length(), 99);
-        link.set(4, 44);
-        link.remove(2);
-
-        for(int i=0; i<link.length(); i++)
+        for(link.mov(0); !link.end(); link.next())
         {
-            int tmp;
-            link.get(i, tmp);
-            cout << tmp << " ";
+            cout << link.current() << " ";
         }
         cout << endl;
 
-        cout << link.find(99) << endl;
-        cout << link.find(123) << endl;
+        link.mov(link.length()-1);
+        cout << link.current() << endl;
+        link.remove(link.length()-1);
+        cout << link.current() << endl;
     }
     catch(Exception& e)
     {

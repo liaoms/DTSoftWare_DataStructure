@@ -41,6 +41,9 @@ protected:
 
 private:
     int m_length;
+    int m_step;
+    STNode* m_curNode;
+
 
 public:
 
@@ -65,6 +68,10 @@ public:
 
             STNode* newNode = new STNode(e);
             newNode->next = pos->next;
+            if(pos == m_curNode)
+            {
+                m_curNode = newNode;
+            }
             pos->next = newNode;
 
             m_length++;
@@ -90,6 +97,10 @@ public:
             STNode* pos = position(index);
 
             STNode* toDel = pos->next;
+            if(toDel == m_curNode)
+            {
+                m_curNode = toDel->next;
+            }
             pos->next = toDel->next;
             e = toDel->value;
             delete toDel;
@@ -161,6 +172,55 @@ public:
             THROW_EXCEPTION(IndexOutOfBoundsException, "Index Out Of Bounds!");
         }
         return ret;
+    }
+
+    bool mov(int index, int step=1)
+    {
+        bool ret = (index >= 0) && (index < m_length);
+
+        if(ret)
+        {
+            m_curNode = position(index);
+            m_step = step;
+        }
+        else
+        {
+            THROW_EXCEPTION(IndexOutOfBoundsException, "Index Out Of Bounds!");
+        }
+        
+        return ret;
+    }
+
+    void next()
+    {
+        for(int i=0; i<m_step; i++)
+        {
+            if(NULL == m_curNode->next)
+            {
+                break;
+            }
+            else
+            {
+                m_curNode = m_curNode->next;
+            }
+        }
+    }
+
+    bool end()
+    {
+        return NULL == m_curNode->next;
+    }
+
+    T current()
+    {
+        if(m_curNode->next)
+        {
+            return m_curNode->next->value;
+        }
+        else
+        {
+            THROW_EXCEPTION(IndexOutOfBoundsException, "current linkList Node is NULL");
+        }  
     }
 
     int length() const 
