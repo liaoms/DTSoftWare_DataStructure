@@ -8,6 +8,7 @@
 #include "DynamicArray.h"
 #include "LinkList.h"
 #include "StaticLinkList.h"
+#include "CircleList.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -17,31 +18,24 @@ int main(int argc, char* argv[])
 {
     try
     {
-        const SharedPointer<int> p = new int(12);
-        SharedPointer<int> p1(p);
+        CircleList<int> cList;
 
-        SharedPointer<int> p2 = new int(22);
+        for(int i=0; i<10; i++)
+        {
+            cList.insert(i);
+        }
 
-        cout << (p2 == p) << endl;
-
-        p2 = p;
-
-        cout << (p2 == p) << " " << (p1 == p) << endl;
-
-        cout << *p << endl;
-        cout << p.value() << endl;
-        cout << p.get() << endl;
-        cout << p.isNull() << endl << endl;
-        
-        cout << *p1 << endl;
-        cout << p1.value() << endl;
-        cout << p1.get() << endl;
-        cout << p1.isNull() << endl << endl;
-
-        cout << *p2 << endl;
-        cout << p2.value() << endl;
-        cout << p2.get() << endl;
-        cout << p2.isNull() << endl;
+        cList.remove(0);
+        cout << cList.current() << endl;
+        cList.remove(cList.length()-1);
+        cList.remove(4);
+        cList.insert(0, 12);
+        cList.insert(99);
+        for(cList.mov(0); !cList.end(); cList.next())
+        {
+            cout << cList.current() << endl;
+            sleep(1);
+        }
     }
     catch(Exception& e)
     {

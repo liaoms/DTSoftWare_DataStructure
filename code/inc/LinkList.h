@@ -47,11 +47,10 @@ protected:
         return pos;
     }
 
-private:
+protected:
     int m_length;
     int m_step;
     STNode* m_curNode;
-
 
 public:
 
@@ -59,6 +58,8 @@ public:
     {
         m_length = 0;
         m_header.next = NULL;
+        m_step = 1;
+        m_curNode = reinterpret_cast<STNode*>(&m_header);
     }
 
     bool insert(const T e) 
