@@ -12,8 +12,9 @@ template <typename T>
 class SmartPointer : public Pointer<T>
 {
 public:
-    SmartPointer(T* pointer) : Pointer<T>(pointer)
-    {   
+    SmartPointer(T* pointer)
+    {
+        this->m_pointer = pointer;   
     }
 
     SmartPointer(const SmartPointer<T>& obj)

@@ -2,6 +2,7 @@
 #define __POINTER_H__
 
 #include "Object.h"
+#include "Exception.h"
 
 namespace LMSLib
 {
@@ -14,11 +15,6 @@ protected:
 
 public:
 
-    Pointer(T* pointer)
-    {
-        m_pointer = pointer;
-    }
-
     T* operator -> ()
     {
         return m_pointer;
@@ -26,7 +22,14 @@ public:
 
     T& operator *()
     {
-        return *m_pointer;
+        if(NULL != m_pointer)
+        {
+            return *m_pointer;
+        }
+        else
+        {
+            THROW_EXCEPTION(NullPointerException, "pointer is NULL");
+        }
     }
 
     T* get()
@@ -36,7 +39,14 @@ public:
 
     T& value()
     {
-        return *m_pointer;
+        if(NULL != m_pointer)
+        {
+            return *m_pointer;
+        }
+        else
+        {
+            THROW_EXCEPTION(NullPointerException, "pointer is NULL");
+        }
     }
 
     bool isNull()
@@ -51,7 +61,14 @@ public:
 
     T& operator *() const
     {
-        return *m_pointer;
+        if(NULL != m_pointer)
+        {
+            return *m_pointer;
+        }
+        else
+        {
+            THROW_EXCEPTION(NullPointerException, "pointer is NULL");
+        }
     }
 
     T* get() const
@@ -61,7 +78,14 @@ public:
 
     T& value() const
     {
-        return *m_pointer;
+        if(NULL != m_pointer)
+        {
+            return *m_pointer;
+        }
+        else
+        {
+            THROW_EXCEPTION(NullPointerException, "pointer is NULL");
+        }
     }
 
     bool isNull() const
