@@ -1,7 +1,7 @@
 #ifndef __SMARTPOINTER_H__
 #define __SMARTPOINTER_H__
 
-#include "Object.h"
+#include "Pointer.h"
 #include <iostream>
 
 using namespace std;
@@ -9,12 +9,11 @@ using namespace std;
 namespace LMSLib
 {
 template <typename T>
-class SmartPointer : public Object
+class SmartPointer : public Pointer<T>
 {
 public:
-    SmartPointer(T* pointer) : m_pointer(pointer)
-    {
-
+    SmartPointer(T* pointer) : Pointer<T>(pointer)
+    {   
     }
 
     SmartPointer(const SmartPointer<T>& obj)
@@ -37,42 +36,14 @@ public:
         return *this;
     }
 
-    T* operator -> ()
-    {
-        return m_pointer;
-    }
-
-    T& operator *()
-    {
-        return *m_pointer;
-    }
-
-    T* get()
-    {
-        return m_pointer;
-    }
-
-    T& value()
-    {
-        return *m_pointer;
-    }
-
-    bool isNull()
-    {
-        return NULL == m_pointer;
-    }
-
     ~SmartPointer()
     {
-        if(NULL == m_pointer)
+        if(NULL == this->m_pointer)
         {
-            delete m_pointer;
-            m_pointer = NULL;
+            delete this->m_pointer;
+            this->m_pointer = NULL;
         }
     }
-
-private:
-    T* m_pointer;
 };
 
 }
