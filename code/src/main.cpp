@@ -17,8 +17,16 @@ int main(int argc, char* argv[])
 {
     try
     {
-        const SmartPointer<int> p = new int(12);
-        SmartPointer<int> p1(p);
+        const SharedPointer<int> p = new int(12);
+        SharedPointer<int> p1(p);
+
+        SharedPointer<int> p2 = new int(22);
+
+        cout << (p2 == p) << endl;
+
+        p2 = p;
+
+        cout << (p2 == p) << " " << (p1 == p) << endl;
 
         cout << *p << endl;
         cout << p.value() << endl;
@@ -28,7 +36,12 @@ int main(int argc, char* argv[])
         cout << *p1 << endl;
         cout << p1.value() << endl;
         cout << p1.get() << endl;
-        cout << p1.isNull() << endl;
+        cout << p1.isNull() << endl << endl;
+
+        cout << *p2 << endl;
+        cout << p2.value() << endl;
+        cout << p2.get() << endl;
+        cout << p2.isNull() << endl;
     }
     catch(Exception& e)
     {
