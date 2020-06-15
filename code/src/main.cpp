@@ -11,6 +11,7 @@
 #include "CircleList.h"
 #include "DualLinkList.h"
 #include "StaticDualLinkList.h"
+#include "DualCircleList.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -20,19 +21,24 @@ int main(int argc, char* argv[])
 {
     try
     {
-        StaticDualLinkList<int, 10> dlist;
+        DualCircleList<int> dlist;
 
-        for(int i=0; i<dlist.cpacity() ; i++)
+        for(int i=0; i<10 ; i++)
         {   
             dlist.insert(i);
         }
 
-        dlist.remove(0);
-        dlist.insert(3, 11);
+        dlist.mov(3);
+        cout << dlist.current() << endl;
+        dlist.remove(3);
+        cout << dlist.current() << endl;
+        dlist.insert(9);
+        //dlist.insert(3, 11);
 
         for(dlist.mov( dlist.length()-1, 1, false); !dlist.end(); dlist.next())
         {
-            cout << dlist.current()  << " ";
+            cout << dlist.current()  << endl;
+            sleep(1);
         }
 
         cout << endl;

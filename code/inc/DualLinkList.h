@@ -62,7 +62,7 @@ public:
         m_header.pre = NULL;
         m_header.next = NULL;
         m_step = 1;
-        m_curNode = reinterpret_cast<STNode*>(&m_header);
+        m_curNode = reinterpret_cast<STNode*>(&m_header)->next;
     }
 
     bool insert(const T e) 
@@ -85,7 +85,7 @@ public:
             }
             newNode->pre = pos;
             newNode->next = pos->next;
-            if(pos == m_curNode)
+            if(pos->next == m_curNode)
             {
                 m_curNode = newNode;
             }
@@ -206,7 +206,7 @@ public:
 
         if(ret)
         {
-            m_curNode = position(index);
+            m_curNode = position(index)->next;
             m_step = step;
             m_bDirection = direction;
         }
@@ -222,7 +222,7 @@ public:
     {
         for(int i=0; i<m_step; i++)
         {
-            if(NULL == (m_bDirection ? m_curNode->next : m_curNode))
+            if(NULL == m_curNode)
             {
                 break;
             }
@@ -235,14 +235,14 @@ public:
 
     bool end()
     {
-        return NULL == (m_bDirection ? m_curNode->next : m_curNode);
+        return NULL == m_curNode;
     }
 
     T current()
     {
-        if(m_curNode->next)
+        if(m_curNode)
         {
-            return m_curNode->next->value;
+            return m_curNode->value;
         }
         else
         {
