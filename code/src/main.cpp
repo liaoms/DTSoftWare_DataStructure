@@ -10,54 +10,25 @@
 #include "StaticLinkList.h"
 #include "CircleList.h"
 #include "DualLinkList.h"
+#include "StaticDualLinkList.h"
 
 using namespace std;
 using namespace LMSLib;
-
-/*
-* nTotalNum : 总人数
-* nStartIdx : 起始位置
-* nStep     : 间隔人数
-* 返回值    :  最后剩的人
-*/
-int JosephCircle(unsigned int nTotalNum, unsigned int nStartIdx, unsigned int nStep)
-{
-    CircleList<int> cList;
-
-    for(int i=0; i<nTotalNum; i++)
-    {
-        cList.insert(i+1);
-    }
-
-    cList.mov(nStartIdx-1);
-    while(cList.length() > 1)
-    {
-        for(int i=1; i<nStep; i++)
-        {
-            cList.next();
-        }
-        {
-            cout << "out : " << cList.current() << endl;
-            cList.remove(cList.find(cList.current()));
-        }
-    }
-    return cList.current();
-}
 
 
 int main(int argc, char* argv[])
 {
     try
     {
-        DualLinkList<int> dlist;
+        StaticDualLinkList<int, 10> dlist;
 
-        for(int i=0; i<10; i++)
+        for(int i=0; i<dlist.cpacity() ; i++)
         {   
             dlist.insert(i);
         }
 
-        dlist.insert(0, 11);
-        dlist.insert(99);
+        dlist.remove(0);
+        dlist.insert(3, 11);
 
         for(dlist.mov( dlist.length()-1, 1, false); !dlist.end(); dlist.next())
         {

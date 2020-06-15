@@ -79,6 +79,10 @@ public:
             STNode* pos = position(index);
 
             STNode* newNode = create(e);
+            if(NULL == newNode)
+            {
+                THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memery to use!");
+            }
             newNode->pre = pos;
             newNode->next = pos->next;
             if(pos == m_curNode)
