@@ -13,29 +13,44 @@
 using namespace std;
 using namespace LMSLib;
 
+/*
+* nTotalNum : 总人数
+* nStartIdx : 起始位置
+* nStep     : 间隔人数
+* 返回值    :  最后剩的人
+*/
+int JosephCircle(unsigned int nTotalNum, unsigned int nStartIdx, unsigned int nStep)
+{
+    CircleList<int> cList;
+
+    for(int i=0; i<nTotalNum; i++)
+    {
+        cList.insert(i+1);
+    }
+
+    cList.mov(nStartIdx-1);
+    while(cList.length() > 1)
+    {
+        for(int i=1; i<nStep; i++)
+        {
+            cList.next();
+        }
+        {
+            cout << "out : " << cList.current() << endl;
+            cList.remove(cList.find(cList.current()));
+        }
+    }
+    return cList.current();
+}
+
 
 int main(int argc, char* argv[])
 {
     try
     {
-        CircleList<int> cList;
+        int ret = JosephCircle(10, 2, 8);
 
-        for(int i=0; i<10; i++)
-        {
-            cList.insert(i);
-        }
-
-        cList.remove(0);
-        cout << cList.current() << endl;
-        cList.remove(cList.length()-1);
-        cList.remove(4);
-        cList.insert(0, 12);
-        cList.insert(99);
-        for(cList.mov(0); !cList.end(); cList.next())
-        {
-            cout << cList.current() << endl;
-            sleep(1);
-        }
+        cout << "last Idx = " << ret << endl;
     }
     catch(Exception& e)
     {
