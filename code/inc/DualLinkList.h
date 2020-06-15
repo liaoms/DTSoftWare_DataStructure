@@ -1,31 +1,33 @@
-#ifndef __LINKLIST_H__
-#define __LINKLIST_H__
+#ifndef __DUALLINKLIST_H__
+#define __DUALLINKLIST_H__
 
 #include "List.h"
 #include "Exception.h"
 
 namespace LMSLib
 {
-
 template <typename T>
-class LinkList : public List<T>
+class DualLinkList : public List<T>
 {
 protected:
     struct STNode : public Object
     {
         T value;
+        STNode* pre;
         STNode* next;
     };
 
     mutable struct : public Object
     {
         char reserv[sizeof(T)];
+        STNode* pre;
         STNode* next;
     }m_header;
 
     virtual STNode* create(const T& e)
     {
         STNode* ret = new STNode();
+        ret->pre = NULL;
         ret->next = NULL;
         ret->value = e;
         return ret;
@@ -49,13 +51,15 @@ protected:
 protected:
     int m_length;
     int m_step;
+    bool m_bDirection;   //true-正向遍历   false-反向遍历
     STNode* m_curNode;
 
 public:
 
-    LinkList()
+    DualLinkList()
     {
         m_length = 0;
+        m_header.pre = NULL;
         m_header.next = NULL;
         m_step = 1;
         m_curNode = reinterpret_cast<STNode*>(&m_header);
@@ -75,10 +79,15 @@ public:
             STNode* pos = position(index);
 
             STNode* newNode = create(e);
+            newNode->pre = pos;
             newNode->next = pos->next;
             if(pos == m_curNode)
             {
                 m_curNode = newNode;
+            }
+            if(NULL != pos->next)
+            {
+                pos->next->pre = newNode;
             }
             pos->next = newNode;
 
@@ -109,6 +118,12 @@ public:
             {
                 m_curNode = toDel->next;
             }
+            
+            if(NULL != toDel->next)
+            {
+                toDel->next->pre = pos;
+            }
+            
             pos->next = toDel->next;
             e = toDel->value;
             destroy(toDel);
@@ -181,7 +196,7 @@ public:
         return ret;
     }
 
-    bool mov(int index, int step=1)
+    bool mov(int index, int step=1, bool direction = true)
     {
         bool ret = (index >= 0) && (index < m_length);
 
@@ -189,6 +204,7 @@ public:
         {
             m_curNode = position(index);
             m_step = step;
+            m_bDirection = direction;
         }
         else
         {
@@ -202,20 +218,20 @@ public:
     {
         for(int i=0; i<m_step; i++)
         {
-            if(NULL == m_curNode->next)
+            if(NULL == (m_bDirection ? m_curNode->next : m_curNode))
             {
                 break;
             }
             else
             {
-                m_curNode = m_curNode->next;
+                m_curNode = m_bDirection ? m_curNode->next : m_curNode->pre;
             }
         }
     }
 
     bool end()
     {
-        return NULL == m_curNode->next;
+        return NULL == (m_bDirection ? m_curNode->next : m_curNode);
     }
 
     T current()
@@ -226,7 +242,7 @@ public:
         }
         else
         {
-            THROW_EXCEPTION(IndexOutOfBoundsException, "current linkList Node is NULL");
+            THROW_EXCEPTION(IndexOutOfBoundsException, "current DualLinkList Node is NULL");
         }  
     }
 
@@ -243,13 +259,15 @@ public:
         }
     }
 
-    virtual ~LinkList()
+    virtual ~DualLinkList()
     {
         clear();
     }
+
 };
+
 
 }
 
 
-#endif // !__LINKLIST_H__
+#endif // !__DUALLINKLIST_H__

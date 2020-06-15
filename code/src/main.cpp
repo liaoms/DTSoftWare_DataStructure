@@ -9,6 +9,7 @@
 #include "LinkList.h"
 #include "StaticLinkList.h"
 #include "CircleList.h"
+#include "DualLinkList.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -48,9 +49,22 @@ int main(int argc, char* argv[])
 {
     try
     {
-        int ret = JosephCircle(10, 2, 8);
+        DualLinkList<int> dlist;
 
-        cout << "last Idx = " << ret << endl;
+        for(int i=0; i<10; i++)
+        {   
+            dlist.insert(i);
+        }
+
+        dlist.insert(0, 11);
+        dlist.insert(99);
+
+        for(dlist.mov( dlist.length()-1, 1, false); !dlist.end(); dlist.next())
+        {
+            cout << dlist.current()  << " ";
+        }
+
+        cout << endl;
     }
     catch(Exception& e)
     {
