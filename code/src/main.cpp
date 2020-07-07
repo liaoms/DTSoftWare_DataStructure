@@ -13,17 +13,16 @@
 #include "StaticDualLinkList.h"
 #include "DualCircleList.h"
 #include "StaticStack.h"
+#include "LinkStack.h"
 
 using namespace std;
 using namespace LMSLib;
-
 
 int main(int argc, char* argv[])
 {
     try
     {
-        StaticStack<int, 10> s;
-
+        LinkStack<int, 10> s;
         for(int i=0; i<s.size(); i++)
         {
             s.push(i);
@@ -34,8 +33,6 @@ int main(int argc, char* argv[])
             cout << s.top() << endl;
             s.pop();
         }
-
-
         cout << endl;
     }
     catch(Exception& e)
