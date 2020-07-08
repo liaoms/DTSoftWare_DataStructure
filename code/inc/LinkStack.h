@@ -5,32 +5,21 @@
 #include "Stack.h"
 namespace LMSLib
 {
-template <typename T, int N>
+template <typename T>
 class LinkStack : public Stack<T>
 {
 private:
-    int m_size;
     LinkList<T> m_list;
 
 public:
-    LinkStack() : m_size(N)
+    LinkStack()
     {
         m_list.clear();
     }
 
     bool push(const T& e)
     {
-        bool ret = m_list.length() < m_size;
-
-        if(ret)
-        {
-            m_list.insert(0, e);
-        }
-        else
-        {
-            THROW_EXCEPTION(IndexOutOfBoundsException, "DynamicStack is full");
-        }
-        return ret;
+        return m_list.insert(0, e);
     }
     bool pop()
     {
@@ -66,7 +55,7 @@ public:
     }
     int size()
     {
-        return m_size;
+        return m_list.length();
     }
 };
 

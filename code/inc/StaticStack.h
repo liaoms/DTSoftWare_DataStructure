@@ -15,19 +15,20 @@ private:
     int m_top;
     int m_size;
 public:
-    StaticStack() : m_top(-1), m_size(N)
+    StaticStack() : m_top(-1), m_size(0)
     {
 
     }
 
     bool push(const T& e)
     {
-        bool ret = m_top < m_size - 1;
+        bool ret = m_size < N;
 
         if(ret)
         {
             m_space[m_top + 1] = e;
             m_top ++;
+            m_size ++;
         }
         else
         {
@@ -39,11 +40,12 @@ public:
     }
     bool pop()
     {
-        bool ret = (m_top >= 0);
+        bool ret = (m_size > 0);
 
         if(ret)
         {
             m_top --;
+            m_size --;
         }
         else
         {
@@ -54,7 +56,7 @@ public:
     }
     T top()
     {
-        bool ret = (m_top >= 0);
+        bool ret = (m_size >= 0);
         T tmp;
         if(ret)
         {
@@ -71,12 +73,18 @@ public:
     {
         bool ret = true;
         m_top = -1;
+        m_size = 0;
         return ret;
 
     }
     int size()
     {
         return m_size;
+    }
+
+    int capacity()
+    {
+        return N;
     }
 
 };
