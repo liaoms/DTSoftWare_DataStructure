@@ -15,6 +15,7 @@
 #include "StaticStack.h"
 #include "LinkStack.h"
 #include "StaticQueue.h"
+#include "LinkQueue.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -23,7 +24,7 @@ int main(int argc, char* argv[])
 {
     try
     {
-        StaticQueue<int, 10> q;
+        LinkQueue<int, 10> q;
         for(int i=0; i<q.capacity(); i++)
         {
             q.add(i);
@@ -32,7 +33,11 @@ int main(int argc, char* argv[])
         q.remove();
         q.add(100);
         q.remove();
+        q.add(110);
+        q.remove();
         q.add(120);
+        q.remove();
+        q.add(140);
 
         while(q.length() > 0)
         {
