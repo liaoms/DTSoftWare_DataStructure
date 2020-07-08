@@ -17,6 +17,7 @@
 #include "StaticQueue.h"
 #include "LinkQueue.h"
 #include "StackToQueue.h"
+#include "QueueToStack.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -25,16 +26,16 @@ int main(int argc, char* argv[])
 {
     try
     {
-        StackToQueue<int> q;
+        QueueToStack<int> q;
         for(int i=0; i<10; i++)
         {
-            q.add(i);
+            q.push(i);
         }
 
-        while (q.length())
+        while (q.size() > 0)
         {
-            cout << q.front() << endl;
-            q.remove();
+            cout << q.top() << endl;
+            q.pop();
         }
         cout << endl;
     }

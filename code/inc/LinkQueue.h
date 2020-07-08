@@ -6,7 +6,7 @@
 
 namespace LMSLib
 {
-template <typename T, int N>
+template <typename T>
 class LinkQueue : public Queue<T>
 {
 private:
@@ -15,16 +15,7 @@ private:
 public:
     bool add(const T& e)
     {
-        bool ret = m_list.length() < N;
-        if(ret)
-        {
-            m_list.insert(m_list.length(), e);
-        }
-        else
-        {
-            THROW_EXCEPTION(IndexOutOfBoundsException, "LinkQueue is full");
-        }
-        return ret;
+        return m_list.insert(m_list.length(), e);
     }
 
     bool remove()
@@ -60,11 +51,6 @@ public:
     int length()
     {
         return m_list.length();
-    }
-
-    int capacity()
-    {
-        return N;
     }
 };
 }
