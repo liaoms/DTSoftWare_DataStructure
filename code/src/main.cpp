@@ -14,6 +14,7 @@
 #include "DualCircleList.h"
 #include "StaticStack.h"
 #include "LinkStack.h"
+#include "StaticQueue.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -22,16 +23,21 @@ int main(int argc, char* argv[])
 {
     try
     {
-        LinkStack<int, 10> s;
-        for(int i=0; i<s.size(); i++)
+        StaticQueue<int, 10> q;
+        for(int i=0; i<q.capacity(); i++)
         {
-            s.push(i);
+            q.add(i);
         }
 
-        for(int i=0; i<s.size(); i++)
+        q.remove();
+        q.add(100);
+        q.remove();
+        q.add(120);
+
+        while(q.length() > 0)
         {
-            cout << s.top() << endl;
-            s.pop();
+            cout << q.front() << endl;
+            q.remove();
         }
         cout << endl;
     }
