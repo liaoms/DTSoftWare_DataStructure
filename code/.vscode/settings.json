@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.asm": "cpp",
         "xstring": "cpp",
         "vector": "cpp",
         "map": "cpp",
@@ -32,6 +33,7 @@
         "cmath": "cpp",
         "deque": "cpp",
         "limits": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "cstring": "cpp"
     }
 }

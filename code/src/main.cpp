@@ -18,6 +18,7 @@
 #include "LinkQueue.h"
 #include "StackToQueue.h"
 #include "QueueToStack.h"
+#include "String.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -26,18 +27,16 @@ int main(int argc, char* argv[])
 {
     try
     {
-        QueueToStack<int> q;
-        for(int i=0; i<10; i++)
-        {
-            q.push(i);
-        }
+        String s("123456789");
+        String s1("abcdef");
 
-        while (q.size() > 0)
-        {
-            cout << q.top() << endl;
-            q.pop();
-        }
-        cout << endl;
+        s = s1;
+
+        s += s1;
+        s += "BBB";
+       
+
+        cout << s.str() << endl;
     }
     catch(Exception& e)
     {
