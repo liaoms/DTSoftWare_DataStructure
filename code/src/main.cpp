@@ -19,6 +19,7 @@
 #include "StackToQueue.h"
 #include "QueueToStack.h"
 #include "String.h"
+#include "Sort.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -27,16 +28,16 @@ int main(int argc, char* argv[])
 {
     try
     {
-        String s("123456789");
-        String s1("abcdef");
+        int array[] = {12,32,23,1,34,4,3,87,567,43,45,67,89};
+        int len = sizeof(array)/sizeof(int);
 
-        s = s1;
+        Sort<int>::bubble(array, len);
 
-        s += s1;
-        s += "BBB";
-       
-
-        cout << s.str() << endl;
+        for(int i=0; i<len; i++)
+        {
+            cout << array[i] << " ";
+        }
+        cout << endl;
     }
     catch(Exception& e)
     {
