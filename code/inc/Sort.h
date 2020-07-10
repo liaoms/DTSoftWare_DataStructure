@@ -63,14 +63,22 @@ public:
 
     static void Bubble(T array[], int len, bool min2max = true)
     {
+        bool flag = true;
         for(int i=0; i<len; i++)
         {
+            flag = true;
             for(int j=0; j<len-i-1; j++)
             {
                 if( min2max ? (array[j] > array[j+1]) : (array[j] < array[j+1]) )
                 {
                     swap(array[j], array[j+1]);
+                    flag = false;
                 }
+            }
+
+            if(flag)
+            {
+                break;
             }
         }
     }
@@ -135,15 +143,23 @@ public:
 
         do
         {
+            bool flag = true;
+
             d = d/3 + 1;
             for(int i=0; i<len; i += d)
-            {
+            {   
+                flag = true;
                 for(int j = 0; j < len -i-d; j += d)
                 {
                     if( min2max ? (array[j] > array[j+d]) : (array[j] < array[j+d]) )
                     {
                         swap(array[j], array[j+d]);
+                        flag = false;
                     }
+                }
+                if(flag)
+                {
+                    break;
                 }
             }
 
