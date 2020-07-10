@@ -100,6 +100,37 @@ public:
         }while(d > 1);
     }
 
+    static void ShellWithInsert(T array[], int len, bool min2max = true)
+    {
+        int d = len;
+
+        do
+        {
+            d = d/3+ 1;
+
+            for(int i=d; i<len; i += d)
+            {
+                int index = i;
+                T tmp = array[index];
+
+                for(int j=i; j>0; j -= d)
+                {
+                    if( min2max ? (tmp < array[j-d]) : (tmp > array[j-d]) )
+                    {
+                        array[j] = array[j-d];
+                        index = j - d;
+                    }
+                }
+
+                if(index != i)
+                {
+                    array[index] = tmp;
+                }
+            }
+        } while (d > 1);
+        
+    }
+
 };
 
 }
