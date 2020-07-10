@@ -65,11 +65,11 @@ public:
     {
         for(int i=0; i<len; i++)
         {
-            for(int j=len-1; j>i; j--)
+            for(int j=0; j<len-i-1; j++)
             {
-                if( min2max ? (array[j] < array[j-1]) : (array[j] > array[j-1]) )
+                if( min2max ? (array[j] > array[j+1]) : (array[j] < array[j+1]) )
                 {
-                    swap(array[j], array[j-1]);
+                    swap(array[j], array[j+1]);
                 }
             }
         }
@@ -103,7 +103,6 @@ public:
     static void ShellWithInsert(T array[], int len, bool min2max = true)
     {
         int d = len;
-
         do
         {
             d = d/3+ 1;
@@ -127,10 +126,30 @@ public:
                     array[index] = tmp;
                 }
             }
+        } while (d > 1);      
+    }
+
+    static void ShellWithBubble(T array[], int len, bool min2max = true)
+    {
+        int d = len;
+
+        do
+        {
+            d = d/3 + 1;
+            for(int i=0; i<len; i += d)
+            {
+                for(int j = 0; j < len -i-d; j += d)
+                {
+                    if( min2max ? (array[j] > array[j+d]) : (array[j] < array[j+d]) )
+                    {
+                        swap(array[j], array[j+d]);
+                    }
+                }
+            }
+
         } while (d > 1);
         
     }
-
 };
 
 }
