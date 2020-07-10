@@ -41,7 +41,7 @@ public:
         }
     }
 
-    static void select(T array[], int len, bool min2max = true)
+    static void Select(T array[], int len, bool min2max = true)
     {
         for(int i=0; i<len; i++)
         {
@@ -61,7 +61,7 @@ public:
         }
     }
 
-    static void bubble(T array[], int len, bool min2max = true)
+    static void Bubble(T array[], int len, bool min2max = true)
     {
         for(int i=0; i<len; i++)
         {
@@ -73,6 +73,31 @@ public:
                 }
             }
         }
+    }
+
+    static void ShellWithInsert(T array[], int len, bool min2max = true)
+    {
+        int d = len;
+        do
+        {
+            d = d/3 + 1;
+            for(int i=0; i<len; i += d)
+            {
+                int index = i;
+                for(int j=i+d; j<len; j += d)
+                {
+                    if( min2max ? (array[index] > array[j]) : (array[index] < array[j]) )
+                    {
+                        index = j;                        
+                    }
+                }
+
+                if(index != i)
+                {
+                    swap(array[index], array[i]);
+                }
+            }
+        }while(d > 1);
     }
 
 };
