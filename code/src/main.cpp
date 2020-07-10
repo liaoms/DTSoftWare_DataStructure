@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
         int array[] = {12,32,23,1,34,4,3,87,567,43,45,67,89};
         int len = sizeof(array)/sizeof(int);
 
-        Sort<int>::ShellWithInsert(array, len, false);
+        Sort<int>::ShellWithSelect(array, len, false);
 
         for(int i=0; i<len; i++)
         {

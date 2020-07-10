@@ -75,7 +75,7 @@ public:
         }
     }
 
-    static void ShellWithInsert(T array[], int len, bool min2max = true)
+    static void ShellWithSelect(T array[], int len, bool min2max = true)
     {
         int d = len;
         do
