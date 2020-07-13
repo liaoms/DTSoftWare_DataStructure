@@ -17,6 +17,53 @@ private:
         right = tmp;
     }
 
+    static void merger(T array[], int begin, int mid, int end, bool min2max=true)
+    {
+        int len = end - begin + 1;
+        T buf[len];
+
+        int nLeft = begin;
+        int nRight = mid+1;
+        int index = 0;
+        while((nLeft <= mid) && (nRight <= end)) 
+        {
+            if( min2max ? (array[nLeft] < array[nRight]) : (array[nLeft] > array[nRight]))
+            {
+                buf[index++] = array[nLeft++];
+            }
+            else
+            {
+                buf[index++] = array[nRight++];
+            }   
+        }
+
+        while(nLeft <= mid)
+        {
+            buf[index++] = array[nLeft++];
+        }
+
+        while(nRight <= end)
+        {
+            buf[index++] = array[nRight++];
+        }
+
+        for(int i=begin, index = 0; i<=end; i++, index++)
+        {
+            array[i] = buf[index];
+        }
+    }
+
+    static void merger(T array[], int begin, int end, bool min2max = true)
+    {
+        if( end != begin)
+        {
+            int mid = (end + begin) / 2;
+            merger(array, begin, mid, min2max);   //左半边排序
+            merger(array, mid+1, end, min2max);   //右半边排序
+            merger(array, begin, mid, end, min2max);    //合并两边
+        }
+    }
+
 public:
     static void Insert(T array[], int len, bool min2max = true)
     {
@@ -164,7 +211,11 @@ public:
             }
 
         } while (d > 1);
-        
+    }
+
+    static void merger(T array[], int len, bool min2max = true)
+    {
+        merger(array, 0, len-1, min2max);
     }
 };
 
