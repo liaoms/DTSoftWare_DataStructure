@@ -64,6 +64,45 @@ private:
         }
     }
 
+    static int partition(T array[], int low, int hight, bool min2max = true)
+    {
+        T tmp = array[low];   //获取基准数据
+        while(low < hight)
+        {
+            //从右往左获取第一个比基准值 大 或 小的值, 做交换
+            while( (low < hight) && (min2max ? (tmp < array[hight]):(tmp > array[hight])) )
+            {
+                hight--;
+            }
+            if(low < hight) //左右下标不相等时才交换，否则不需要交换
+            {
+                swap(array[low], array[hight]); 
+            }
+            
+            //从左往右获取第一个比基准值 小 或大的值，做交换
+            while ( (low < hight) && ( min2max ? (tmp > array[low]) : (tmp < array[low])) )
+            {
+                low++;
+            }
+            if(low < hight) //左右下标不相等时才交换，否则不需要交换
+            {
+                swap(array[low], array[hight]); 
+            }
+        }
+
+        array[low] = tmp;
+        return low;
+    }
+
+    static void Quick(T array[], int low, int hight, bool min2max = true)
+    {  
+        if(low < hight)
+        {
+            int index = partition(array, low, hight, min2max);  //获取位置,位置为值大小的分水岭
+            Quick(array, low, index-1, min2max);        //最左边的列表快速排序
+            Quick(array, index + 1, hight, min2max);    //对右边的列表快速排序
+        }
+    }
 public:
     static void Insert(T array[], int len, bool min2max = true)
     {
@@ -216,6 +255,11 @@ public:
     static void merger(T array[], int len, bool min2max = true)
     {
         merger(array, 0, len-1, min2max);
+    }
+
+    static void Quick(T array[], int len, bool min2max = true)
+    {
+        Quick(array, 0, len-1, min2max);
     }
 };
 
