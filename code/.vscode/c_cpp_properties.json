@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/inc",
-                "D:/Projects/Linux/include"
+                "D:/Projects/Linux/include",
+                "D:/Projects/Linux/include/c++/4.4"
             ],
             "defines": [
                 "_DEBUG",
