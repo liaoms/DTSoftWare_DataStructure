@@ -74,6 +74,32 @@ protected:
         }
     }
 
+    void remove(GTreeNode<T>* delNode, GTree<T>*& ret)
+    {
+        ret = new GTree<T>();
+
+        if(NULL != ret)
+        {
+            if(delNode == root())
+            {
+                ret->m_root = this->m_root;
+                this->m_root = NULL;
+            }
+            else
+            {
+                LinkList<GTreeNode<T>*>& child =  dynamic_cast<GTreeNode<T>*>(delNode->m_parent)->m_child;
+
+                child.remove(child.find(delNode));
+
+                delNode->m_parent = NULL;
+                ret->m_root = delNode;
+            }
+        }
+        else
+        {
+            THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memery to new Gtree...");
+        }
+    }
 
 public:
     bool insert(const T& value, TreeNode<T>* parent)
@@ -142,11 +168,31 @@ public:
     }
     SharedPointer<Tree<T> > remove(const T& value)
     {
-        return NULL;
+        GTreeNode<T>* delNode = find(value);
+        GTree<T>* ret = NULL;
+        if(NULL != delNode)
+        {
+            remove(delNode, ret);
+        }
+        else
+        {
+            THROW_EXCEPTION(InvalidParaException, "Input param error...");
+        }
+        return ret;
     }
     SharedPointer<Tree<T> > remove(TreeNode<T>* node)
     {
-        return NULL;
+        GTreeNode<T>* delNode = find(node);
+        GTree<T>* ret = NULL;
+        if(NULL != delNode)
+        {
+            remove(delNode, ret);
+        }
+        else
+        {
+            THROW_EXCEPTION(InvalidParaException, "Input param error...");
+        }
+        return ret;
     }
     GTreeNode<T>* find(const T& value) const
     {

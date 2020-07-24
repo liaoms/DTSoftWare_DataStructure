@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
         }
         tree.insert('M', node);
 
-        tree.clear();
+        SharedPointer<Tree<char> > result =  tree.remove(tree.find('D'));
 
         char array[] = {'K', 'L', 'F', 'G', 'M', 'I', 'J'};
 
