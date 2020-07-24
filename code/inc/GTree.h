@@ -53,6 +53,23 @@ protected:
         return ret;
     }
 
+    void free(GTreeNode<T>* node)
+    {
+        if(NULL == node)
+        {
+            return;
+        }
+        else
+        {
+            for(node->m_child.mov(0); !node->m_child.end(); node->m_child.next())
+            {
+                free(node->m_child.current());
+            }
+            delete node;
+            node = NULL;
+        }
+    }
+
 
 public:
     bool insert(const T& value, TreeNode<T>* parent)
@@ -150,7 +167,8 @@ public:
     }
     void clear() 
     {
-
+        free(dynamic_cast<GTreeNode<T>*>(this->m_root));
+        this->m_root = NULL;
     }
 };
 

@@ -83,6 +83,8 @@ int main(int argc, char* argv[])
         }
         tree.insert('M', node);
 
+        tree.clear();
+
         char array[] = {'K', 'L', 'F', 'G', 'M', 'I', 'J'};
 
         for(int i = 0; i<sizeof(array)/sizeof(char); i++)
