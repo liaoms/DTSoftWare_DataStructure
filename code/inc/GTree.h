@@ -65,8 +65,12 @@ protected:
             {
                 free(node->m_child.current());
             }
-            delete node;
-            node = NULL;
+
+            if(node->flag())
+            {
+                delete node;
+                node = NULL;
+            }                       
         }
     }
 
@@ -75,7 +79,7 @@ public:
     bool insert(const T& value, TreeNode<T>* parent)
     {
         bool ret = true;
-        GTreeNode<T>* pNewNode = new GTreeNode<T>();
+        GTreeNode<T>* pNewNode = GTreeNode<T>::newNode();
         if(NULL != pNewNode)
         {
             pNewNode->m_value = value;
@@ -106,21 +110,28 @@ public:
 
         if(NULL != node)
         {
-            GTreeNode<T>* parentNode = find(node->m_parent);
-
-            if(parentNode)
+            if( NULL == this->m_root )
             {
-                GTreeNode<T>* childNode = dynamic_cast<GTreeNode<T>*>(node);
-                if(parentNode->m_child.find(childNode) < 0)
-                {
-                    parentNode->m_child.insert(childNode);
-                }
-                ret = true;
+                this->m_root = node;
+                node->m_parent = NULL;
             }
             else
             {
-                THROW_EXCEPTION(InvalidParaException, "Inout node did't have parent...");
-            }
+                GTreeNode<T>* parentNode = find(node->m_parent);
+                if(parentNode)
+                {
+                    GTreeNode<T>* childNode = dynamic_cast<GTreeNode<T>*>(node);
+                    if(parentNode->m_child.find(childNode) < 0)
+                    {
+                        parentNode->m_child.insert(childNode);
+                    }
+                    ret = true;
+                }
+                else
+                {
+                    THROW_EXCEPTION(InvalidParaException, "Inout node did't have parent...");
+                }
+            }          
         }
         else
         {
@@ -169,6 +180,11 @@ public:
     {
         free(dynamic_cast<GTreeNode<T>*>(this->m_root));
         this->m_root = NULL;
+    }
+
+    ~GTree()
+    {
+        clear();
     }
 };
 

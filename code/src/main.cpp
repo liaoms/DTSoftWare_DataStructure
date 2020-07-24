@@ -33,7 +33,11 @@ int main(int argc, char* argv[])
         GTree<char> tree;
         GTreeNode<char>* node = NULL;
 
-        tree.insert('A', NULL);
+        GTreeNode<char> root;
+        root.m_value = 'A';
+        root.m_parent = NULL;
+
+        tree.insert(&root);
 
         node = tree.find('A');
         if(NULL == node)
