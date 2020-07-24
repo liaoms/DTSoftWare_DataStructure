@@ -166,7 +166,7 @@ public:
     {
         int ret = -1;
 
-        if(ret)
+        if(m_length > 0)
         {
             STNode* pos = reinterpret_cast<STNode*>(&m_header);
 
@@ -180,16 +180,12 @@ public:
                 pos = pos->next;
             }
         }
-        else
-        {
-            THROW_EXCEPTION(IndexOutOfBoundsException, "Index Out Of Bounds!");
-        }
         return ret;
     }
 
     bool mov(int index, int step=1)
     {
-        bool ret = (index >= 0) && (index < m_length);
+        bool ret = (index >= 0) && (index <=  m_length);
 
         if(ret)
         {

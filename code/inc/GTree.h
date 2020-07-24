@@ -3,6 +3,7 @@
 
 #include "Tree.h"
 #include "GTreeNode.h"
+#include "Exception.h"
 
 namespace LMSLib
 {
@@ -57,11 +58,58 @@ public:
     bool insert(const T& value, TreeNode<T>* parent)
     {
         bool ret = true;
+        GTreeNode<T>* pNewNode = new GTreeNode<T>();
+        if(NULL != pNewNode)
+        {
+            pNewNode->m_value = value;
+            pNewNode->m_child.clear();
+
+            if(NULL == parent)
+            {    
+                pNewNode->m_parent = NULL;
+                this->m_root = pNewNode;
+            }
+            else
+            {
+                pNewNode->m_parent = parent;
+                return insert(pNewNode);
+            }
+        }
+        else
+        {
+            THROW_EXCEPTION(NoEnoughMemeryException, "NoEnough Memery to new GtreeNode");
+        }
+
         return ret;
     }
-    bool insert(TreeNode<T>* node, TreeNode<T>* parent) 
+
+    bool insert(TreeNode<T>* node) 
     {
-        bool ret = true;
+        bool ret = false;
+
+        if(NULL != node)
+        {
+            GTreeNode<T>* parentNode = find(node->m_parent);
+
+            if(parentNode)
+            {
+                GTreeNode<T>* childNode = dynamic_cast<GTreeNode<T>*>(node);
+                if(parentNode->m_child.find(childNode) < 0)
+                {
+                    parentNode->m_child.insert(childNode);
+                }
+                ret = true;
+            }
+            else
+            {
+                THROW_EXCEPTION(InvalidParaException, "Inout node did't have parent...");
+            }
+        }
+        else
+        {
+            THROW_EXCEPTION(InvalidParaException, "Input node can't be NULL...");
+        }
+
         return ret;
     }
     SharedPointer<Tree<T> > remove(const T& value)

@@ -19,7 +19,7 @@ public:
         m_root = NULL;
     }
     virtual bool insert(const T& value, TreeNode<T>* parent) = 0;
-    virtual bool insert(TreeNode<T>* node, TreeNode<T>* parent) = 0;
+    virtual bool insert(TreeNode<T>* node) = 0;
     virtual SharedPointer<Tree<T> > remove(const T& value) = 0;
     virtual SharedPointer<Tree<T> > remove(TreeNode<T>* node) = 0;
     virtual TreeNode<T>* find(const T& value) const = 0;
