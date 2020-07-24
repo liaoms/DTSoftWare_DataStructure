@@ -87,7 +87,9 @@ int main(int argc, char* argv[])
         }
         tree.insert('M', node);
 
-        SharedPointer<Tree<char> > result =  tree.remove(tree.find('D'));
+        cout << "tree.count() = " << tree.count() << endl;
+        cout << "tree.degree() = " << tree.degree() << endl;
+        cout << "tree.height() = " << tree.height() << endl;
 
         char array[] = {'K', 'L', 'F', 'G', 'M', 'I', 'J'};
 

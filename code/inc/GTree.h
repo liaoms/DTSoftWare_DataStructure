@@ -101,6 +101,60 @@ protected:
         }
     }
 
+    int count(GTreeNode<T>* node) const
+    {
+        int ret = 0;
+        if(NULL != node)
+        {
+            ret = 1;
+
+            for(node->m_child.mov(0); !node->m_child.end(); node->m_child.next())
+            {
+                ret += count(node->m_child.current());
+            }
+        }
+        
+        return ret;
+    }
+
+    int degree(GTreeNode<T>* node) const
+    {
+        int ret = 0;
+        if(NULL != node)
+        {
+            ret = node->m_child.length();
+
+            for(node->m_child.mov(0); !node->m_child.end(); node->m_child.next())
+            {
+                int d = node->m_child.length();
+                if(ret < d)
+                {
+                    ret = d;
+                }
+            }
+        }
+        return ret;
+    }
+
+    int height(GTreeNode<T>* node) const
+    {
+        int ret = 0;
+        if(NULL != node)
+        {
+            for(node->m_child.mov(0); !node->m_child.end(); node->m_child.next())
+            {
+                int h = height(node->m_child.current());
+                if(ret < h)
+                {
+                    ret = h;
+                }
+            }
+            ret += 1;
+        }
+
+        return ret;
+    }
+
 public:
     bool insert(const T& value, TreeNode<T>* parent)
     {
@@ -209,18 +263,15 @@ public:
 
     int count() const
     {
-        int ret = 0;
-        return ret;
+        return count(root());
     }
     int degree() const
     {
-        int ret = 0;
-        return ret;
+        return degree(root());
     }
     int height() const 
     {
-        int ret = 0;
-        return ret;
+        return height(root());
     }
     void clear() 
     {
