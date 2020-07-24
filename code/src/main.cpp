@@ -32,6 +32,9 @@ int main(int argc, char* argv[])
     {
         GTree<int> tree;
         GTreeNode<int> treeNode;
+
+        cout << tree.find(0) << endl;
+        cout << tree.find(&treeNode) << endl;
     }
     catch(Exception& e)
     {

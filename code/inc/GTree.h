@@ -9,6 +9,50 @@ namespace LMSLib
 template <typename T>
 class GTree : public Tree<T>
 {
+protected:
+    GTreeNode<T>* find(GTreeNode<T>* node, const T& value) const
+    {
+        GTreeNode<T>* ret = NULL;
+
+        if(NULL != node)
+        {
+            if(value == node->m_value)
+            {
+                return node;
+            }
+            else
+            {
+                for(node->m_child.mov(0); !node->m_child.end() && (ret == NULL); node->m_child.next())
+                {
+                    ret = find(node->m_child.current(), value);
+                }
+            }           
+        }
+        return ret;
+    }
+
+    GTreeNode<T>* find(GTreeNode<T>* node, GTreeNode<T>* nodeValue) const
+    {
+        GTreeNode<T>* ret = NULL;
+
+        if(NULL != node)
+        {
+            if(nodeValue == node)
+            {
+                return node;
+            }
+            else
+            {
+                for(node->m_child.mov(0); !node->m_child.end() && (ret == NULL); node->m_child.next())
+                {
+                    ret = find(node->m_child.current(), nodeValue);
+                }
+            }           
+        }
+        return ret;
+    }
+
+
 public:
     bool insert(const T& value, TreeNode<T>* parent)
     {
@@ -28,13 +72,13 @@ public:
     {
         return NULL;
     }
-    GTreeNode<T>* find(const T& valuee) const
+    GTreeNode<T>* find(const T& value) const
     {
-
+        return find(root(), value);
     }
     GTreeNode<T>* find(TreeNode<T>* node) const
     {
-
+        return find(root(), dynamic_cast<GTreeNode<T>*>(node));
     }
     GTreeNode<T>* root() const
     {
