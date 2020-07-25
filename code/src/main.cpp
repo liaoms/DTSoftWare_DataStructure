@@ -80,7 +80,9 @@ int main(int argc, char* argv[])
         bt.insert(6, btn);
         bt.insert(7, btn);
 
-        bt.clear();
+        cout << "bt.count() = " << bt.count() << endl;
+        cout << "bt.height() = " << bt.height() << endl;
+        cout << "bt.degree() = " << bt.degree() << endl;
 
         int array[] = {8,9,10,6,7};
 

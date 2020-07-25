@@ -169,6 +169,54 @@ protected:
             }
         }
     }
+
+    int count(BTreeNode<T>* node) const
+    {
+        int ret = 0;
+        if(NULL != node)
+        {
+            ret = count(node->m_left) + count(node->m_right) + 1;
+        }
+        return ret;
+    }
+
+    int degree(BTreeNode<T>* node) const 
+    {
+        int ret = 0;
+        BTreeNode<T>* child[] = {node->m_left, node->m_right};
+        if(NULL != node)
+        {
+            ret = (!!node->m_left) + (!!node->m_right);
+
+            for(int i=0; (i < 2)&&(ret < 2); i++)
+            {
+                int d = degree(child[i]);
+
+                if(ret < d)
+                {
+                    ret = d;
+                }
+            }
+        }
+        return ret;
+    }
+
+    int height(BTreeNode<T>* node) const
+    {
+        int ret = 0;
+        if(NULL != node)
+        {
+            ret = height(node->m_left);
+            int h = height(node->m_right);
+            if(ret < h)
+            {
+                ret = h;
+            }
+            ret += 1;
+        }
+        return ret;
+    }
+
 public:
     BTree()
     {
@@ -280,17 +328,17 @@ public:
 
     int count() const 
     {
-
+        return count(root());
     }
 
     int degree() const 
     {
-
+        return degree(root());
     }
 
     int height() const
     {
-
+        return height(root());
     }
 
     void clear() 
