@@ -4,12 +4,17 @@
 #include "Tree.h"
 #include "GTreeNode.h"
 #include "Exception.h"
+#include "LinkQueue.h"
 
 namespace LMSLib
 {
 template <typename T>
 class GTree : public Tree<T>
 {
+private:
+    GTree(const GTree<T>& obj);
+    GTree<T>& operator= (const GTree<T>& obj);
+
 protected:
     GTreeNode<T>* find(GTreeNode<T>* node, const T& value) const
     {
@@ -155,7 +160,14 @@ protected:
         return ret;
     }
 
+    LinkQueue<GTreeNode<T>* > m_queue;
+
 public:
+    GTree()
+    {
+        m_queue.clear();
+    }
+
     bool insert(const T& value, TreeNode<T>* parent)
     {
         bool ret = true;
@@ -220,6 +232,7 @@ public:
 
         return ret;
     }
+
     SharedPointer<Tree<T> > remove(const T& value)
     {
         GTreeNode<T>* delNode = find(value);
@@ -227,6 +240,7 @@ public:
         if(NULL != delNode)
         {
             remove(delNode, ret);
+            m_queue.clear();
         }
         else
         {
@@ -234,6 +248,7 @@ public:
         }
         return ret;
     }
+ 
     SharedPointer<Tree<T> > remove(TreeNode<T>* node)
     {
         GTreeNode<T>* delNode = find(node);
@@ -241,6 +256,7 @@ public:
         if(NULL != delNode)
         {
             remove(delNode, ret);
+            m_queue.clear();
         }
         else
         {
@@ -248,14 +264,17 @@ public:
         }
         return ret;
     }
+ 
     GTreeNode<T>* find(const T& value) const
     {
         return find(root(), value);
     }
+ 
     GTreeNode<T>* find(TreeNode<T>* node) const
     {
         return find(root(), dynamic_cast<GTreeNode<T>*>(node));
     }
+ 
     GTreeNode<T>* root() const
     {
         return dynamic_cast<GTreeNode<T>*>(this->m_root);
@@ -265,18 +284,64 @@ public:
     {
         return count(root());
     }
+ 
     int degree() const
     {
         return degree(root());
     }
+ 
     int height() const 
     {
         return height(root());
     }
+ 
     void clear() 
     {
         free(dynamic_cast<GTreeNode<T>*>(this->m_root));
         this->m_root = NULL;
+
+        m_queue.clear();
+    }
+
+    void begin()
+    {
+        if(NULL != this->m_root)
+        {
+            m_queue.clear();
+            m_queue.add(root());
+        }
+    }
+
+    void next()
+    {
+        if(m_queue.length() > 0)
+        {
+            GTreeNode<T>* front = m_queue.front();
+
+            m_queue.remove();
+
+            for(front->m_child.mov(0); !front->m_child.end(); front->m_child.next())
+            {
+                m_queue.add(front->m_child.current());
+            }
+        }
+    }
+
+    bool end()
+    {
+        return 0 == m_queue.length();
+    }
+
+    T current()
+    {
+        if(m_queue.length() > 0)
+        {
+            return m_queue.front()->m_value;
+        }
+        else
+        {
+            THROW_EXCEPTION(IndexOutOfBoundsException, "queue is empty...");
+        }
     }
 
     ~GTree()

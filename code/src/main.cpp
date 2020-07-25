@@ -93,20 +93,11 @@ int main(int argc, char* argv[])
 
         char array[] = {'K', 'L', 'F', 'G', 'M', 'I', 'J'};
 
-        for(int i = 0; i<sizeof(array)/sizeof(char); i++)
+        for(tree.begin(); !tree.end(); tree.next())
         {
-            TreeNode<char>* node = tree.find(array[i]);
-
-            if(NULL != node)
-            {
-                while(node)
-                {
-                    cout << node->m_value << " ";
-                    node = node->m_parent;
-                }
-                cout << endl;
-            }
+            cout << tree.current() << " ";
         }
+        cout << endl;
 
     }
     catch(Exception& e)

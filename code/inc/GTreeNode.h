@@ -10,6 +10,10 @@ namespace LMSLib
 template <typename T>
 class GTreeNode : public TreeNode<T>
 {
+private:
+    GTreeNode(const GTreeNode<T>& obj);
+    GTreeNode<T>& operator = (const GTreeNode<T>& obj);
+
 protected:
 
     void * operator new (unsigned int size) throw()
