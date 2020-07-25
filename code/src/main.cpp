@@ -31,80 +31,71 @@ int main(int argc, char* argv[])
 {
     try
     {
-        GTree<char> tree;
-        GTreeNode<char>* node = NULL;
-
-        GTreeNode<char> root;
-        root.m_value = 'A';
-        root.m_parent = NULL;
-
-        tree.insert(&root);
-
-        node = tree.find('A');
-        if(NULL == node)
-        {
-            cout << "can't find 'A'" << endl;
-        }
-        tree.insert('B', node);
-        tree.insert('C', node);
-        tree.insert('D', node);
-
-        node = tree.find('B');
-        if(NULL == node)
-        {
-            cout << "can't find 'B'" << endl;
-        }
-        tree.insert('E', node);
-        tree.insert('F', node);
-
-        node = tree.find('C');
-        if(NULL == node)
-        {
-            cout << "can't find 'C'" << endl;
-        }
-        tree.insert('G', node);
-
-        node = tree.find('D');
-        if(NULL == node)
-        {
-            cout << "can't find 'D'" << endl;
-        }
-        tree.insert('H', node);
-        tree.insert('I', node);
-        tree.insert('J', node);
-
-        node = tree.find('E');
-        if(NULL == node)
-        {
-            cout << "can't find 'E'" << endl;
-        }
-        tree.insert('K', node);
-        tree.insert('L', node);
-
-        node = tree.find('H');
-        if(NULL == node)
-        {
-            cout << "can't find 'H'" << endl;
-        }
-        tree.insert('M', node);
-
-        cout << "tree.count() = " << tree.count() << endl;
-        cout << "tree.degree() = " << tree.degree() << endl;
-        cout << "tree.height() = " << tree.height() << endl;
-
-        char array[] = {'K', 'L', 'F', 'G', 'M', 'I', 'J'};
-
-        for(tree.begin(); !tree.end(); tree.next())
-        {
-            cout << tree.current() << " ";
-        }
-        cout << endl;
-
         BTree<int> bt;
-        BTreeNode<int> btn;
+        BTreeNode<int>* btn = NULL;
 
-        cout << bt.find(1) << endl;
-        cout << bt.find(&btn) << endl;
+        bt.insert(1,NULL);
+
+        btn = bt.find(1);
+        if(!btn)
+        {
+            cout << "find(1) error" << endl;
+            return 0;
+        }
+        bt.insert(2, btn);
+        bt.insert(3, btn);
+
+        btn = bt.find(2);
+        if(!btn)
+        {
+            cout << "find(2) error" << endl;
+            return 0;
+        }
+        bt.insert(4, btn);
+        bt.insert(5, btn);
+
+        btn = bt.find(4);
+        if(!btn)
+        {
+            cout << "find(4) error" << endl;
+            return 0;
+        }
+        bt.insert(8, btn);
+        bt.insert(9, btn);
+
+        btn = bt.find(5);
+        if(!btn)
+        {
+            cout << "find(5) error" << endl;
+            return 0;
+        }
+        bt.insert(10, btn);
+
+        btn = bt.find(3);
+        if(!btn)
+        {
+            cout << "find(3) error" << endl;
+            return 0;
+        }
+        bt.insert(6, btn);
+        bt.insert(7, btn);
+
+        int array[] = {8,9,10,6,7};
+
+        for(int i=0; i<sizeof(array)/sizeof(int); i++)
+        {
+            TreeNode<int>* node = bt.find(array[i]);
+
+            if(node)
+            {
+                while(node)
+                {
+                    cout << node->m_value << " ";
+                    node = node->m_parent;
+                }
+                cout << endl;
+            }
+        }
 
     }
     catch(Exception& e)

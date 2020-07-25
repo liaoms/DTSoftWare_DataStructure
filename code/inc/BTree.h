@@ -6,6 +6,12 @@
 
 namespace LMSLib
 {
+    enum BTreePos
+    {
+        ANY,
+        LEFT,
+        RIGHT
+    };
 template <typename T>
 class BTree : public Tree<T>
 {
@@ -62,7 +68,59 @@ protected:
         return ret;
     }
 
-
+    bool insert(BTreeNode<T>* node, BTreeNode<T>* parent, BTreePos pos)
+    {
+        bool ret = true;
+        if( (NULL != parent) && (NULL != node) )
+        {
+            if(ANY == pos)
+            {
+                if(NULL == parent->m_left)
+                {
+                    parent->m_left = node;
+                }
+                else if (NULL == parent->m_right)
+                {
+                    parent->m_right = node;
+                }
+                else
+                {
+                    ret = false;
+                }
+            }
+            else if (LEFT == pos)
+            {
+                if(NULL == parent->m_left)
+                {
+                    parent->m_left = node;
+                }
+                else
+                {
+                    ret = false;
+                }
+            }
+            else if (RIGHT == pos)
+            {
+                if(NULL == parent->m_right)
+                {
+                    parent->m_right = node;
+                }
+                else
+                {
+                    ret = false;
+                }
+            }
+            else
+            {
+                ret = false;
+            }
+        }
+        else
+        {
+            THROW_EXCEPTION(InvalidParaException, "Parent Node is NULL...");
+        }
+        return ret;
+    }
 
 
 public:
@@ -73,14 +131,58 @@ public:
 
     bool insert(const T& value, TreeNode<T>* parent)
     {
+        return insert(value, parent, ANY);
+    }
+
+    bool insert(const T& value, TreeNode<T>* parent, BTreePos pos)
+    {
         bool ret = true;
 
+        BTreeNode<T>* newNode = BTreeNode<T>::NewNode();   
+        if(NULL == newNode)
+        {
+            THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memery to New BTreeNode...");
+        }
+        newNode->m_value = value;
+        newNode->m_parent = parent;
+
+        if( (NULL == parent) && (NULL == this->m_root) )
+        {
+            this->m_root = newNode;
+        }
+        else if(parent != NULL)
+        {
+            ret = insert(newNode, dynamic_cast<BTreeNode<T>*>(parent), pos);
+        }
+        else
+        {
+            delete newNode;
+            newNode = NULL;
+            THROW_EXCEPTION(InvalidParaException, "Input Parent is NULL...");
+        }
         return ret;
     }
 
     bool insert(TreeNode<T>* node)
     {
-        bool ret = true;
+        return insert(dynamic_cast<BTreeNode<T>*>(node), ANY);
+    }
+
+    bool insert(BTreeNode<T>* node, BTreePos pos)
+    {
+        bool ret = false;
+        if(NULL != node)
+        {
+            BTreeNode<T>* parent = find(root(), dynamic_cast<BTreeNode<T>*>(node->m_parent));
+            if(NULL != parent)
+            {
+                ret = insert(node, parent, pos);
+            }
+        }
+        else
+        {
+            THROW_EXCEPTION(InvalidParaException, "Input node is NULL...");
+        }
 
         return ret;
     }
