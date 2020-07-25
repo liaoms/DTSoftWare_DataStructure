@@ -82,6 +82,8 @@ int main(int argc, char* argv[])
 
         int array[] = {8,9,10,6,7};
 
+        SharedPointer<Tree<int> > ret = bt.remove(2);
+
         for(int i=0; i<sizeof(array)/sizeof(int); i++)
         {
             TreeNode<int>* node = bt.find(array[i]);

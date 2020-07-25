@@ -122,7 +122,38 @@ protected:
         return ret;
     }
 
+    void remove(BTreeNode<T>* toDel, BTree<T>*& ret)
+    {
+        if(toDel == this->m_root)
+        {
+            ret->m_root = this->m_root;
+            this->m_root = NULL;
+        }
+        else
+        {
+            BTreeNode<T>* parent = find(toDel->m_parent);
 
+            if(parent)
+            {
+                if(toDel == parent->m_left)
+                {
+                    ret->m_root = toDel;
+                    toDel->m_parent = NULL;
+                    parent->m_left = NULL;
+                }
+                else if(toDel == parent->m_right)
+                {
+                    ret->m_root = toDel;
+                    toDel->m_parent = NULL;
+                    parent->m_right = NULL;
+                }
+            }
+            else
+            {
+                THROW_EXCEPTION(InvalidParaException, "Input toDel is Error...");
+            }
+        }
+    }
 public:
     BTree()
     {
@@ -189,12 +220,32 @@ public:
 
     SharedPointer<Tree<T> > remove(const T& value)
     {
+        BTree<T>* ret = new BTree<T>();
+        if(NULL == ret)
+        {
+            THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memery to new Btree...");
+        }
 
+        BTreeNode<T>* node = find(value);
+
+        if(NULL != node)
+        {
+            remove(node, ret);
+        }
+
+        return ret;
     }
 
     SharedPointer<Tree<T> > remove(TreeNode<T>* node)
     {
+        BTree<T>* ret = new BTree<T>();
+        if(NULL == ret)
+        {
+            THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memery to new Btree...");
+        }
 
+        remove(dynamic_cast<BTreeNode<T>*>(node), ret);
+        return ret;
     }
 
     BTreeNode<T>* find(const T& value) const
