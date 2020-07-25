@@ -10,19 +10,6 @@ namespace LMSLib
 template <typename T>
 class GTreeNode : public TreeNode<T>
 {
-private:
-    GTreeNode(const GTreeNode<T>& obj);
-    GTreeNode<T>& operator = (const GTreeNode<T>& obj);
-
-protected:
-
-    void * operator new (unsigned int size) throw()
-    {
-        return Object::operator new (size);
-    }
-
-    bool m_flag;
-
 public:
 
     LinkList<GTreeNode<T>*> m_child;
@@ -30,12 +17,6 @@ public:
     GTreeNode()
     {
         m_child.clear();
-        m_flag = false;
-    }
-
-    bool flag()
-    {
-        return m_flag;
     }
 
     static GTreeNode<T>* newNode()

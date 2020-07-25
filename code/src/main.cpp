@@ -22,6 +22,7 @@
 #include "Sort.h"
 #include "GTreeNode.h"
 #include "GTree.h"
+#include "BTree.h"
 
 using namespace std;
 using namespace LMSLib;
@@ -98,6 +99,8 @@ int main(int argc, char* argv[])
             cout << tree.current() << " ";
         }
         cout << endl;
+
+        BTree<int> bt;
 
     }
     catch(Exception& e)

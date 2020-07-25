@@ -1,7 +1,6 @@
 #ifndef __TREE_H__
 #define __TREE_H__
 
-
 #include "Object.h"
 #include "TreeNode.h"
 #include "SharedPointer.h"
@@ -11,6 +10,10 @@ namespace LMSLib
 template <typename T>
 class Tree : public Object
 {
+private:
+    Tree(const Tree<T>& obj);
+    Tree<T>& operator= (const Tree<T>& obj);
+
 protected:
     TreeNode<T>* m_root;
 public:

@@ -9,6 +9,13 @@ namespace LMSLib
 template <typename T>
 class TreeNode : public Object
 {
+private:
+    TreeNode(const TreeNode<T>& obj);
+    TreeNode<T>& operator = (const TreeNode<T>& obj);
+
+protected:
+    bool m_flag;
+
 public:
     T m_value;
     TreeNode<T>* m_parent;
@@ -16,6 +23,17 @@ public:
     TreeNode()
     {
         m_parent = NULL;
+        m_flag = false;
+    }
+
+    void * operator new (unsigned int size) throw()
+    {
+        return Object::operator new (size);
+    }
+
+    bool flag()
+    {
+        return m_flag;
     }
 
     virtual ~TreeNode() = 0; 

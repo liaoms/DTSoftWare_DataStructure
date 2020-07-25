@@ -11,10 +11,6 @@ namespace LMSLib
 template <typename T>
 class GTree : public Tree<T>
 {
-private:
-    GTree(const GTree<T>& obj);
-    GTree<T>& operator= (const GTree<T>& obj);
-
 protected:
     GTreeNode<T>* find(GTreeNode<T>* node, const T& value) const
     {
