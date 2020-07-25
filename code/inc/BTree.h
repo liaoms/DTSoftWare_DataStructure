@@ -154,6 +154,21 @@ protected:
             }
         }
     }
+
+    void free(BTreeNode<T>* node)
+    {
+        if(NULL != node)
+        {
+            free(node->m_left);
+            free(node->m_right);
+
+            if(node->flag())
+            {
+                delete node;
+                node = NULL;
+            }
+        }
+    }
 public:
     BTree()
     {
@@ -279,8 +294,9 @@ public:
     }
 
     void clear() 
-    {
-
+    {   
+        free(root());
+        this->m_root = NULL;
     }
 };
 

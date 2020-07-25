@@ -80,6 +80,8 @@ int main(int argc, char* argv[])
         bt.insert(6, btn);
         bt.insert(7, btn);
 
+        bt.clear();
+
         int array[] = {8,9,10,6,7};
 
         SharedPointer<Tree<int> > ret = bt.remove(2);
