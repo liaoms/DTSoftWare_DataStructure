@@ -9,11 +9,10 @@ namespace LMSLib
 template <typename T>
 class BTreeNode : public TreeNode<T>
 {
-protected:
-    BTreeNode<T>* m_left;
-    BTreeNode<T>* m_right;
 
 public:
+    BTreeNode<T>* m_left;
+    BTreeNode<T>* m_right;
     BTreeNode()
     {
         m_left = NULL;

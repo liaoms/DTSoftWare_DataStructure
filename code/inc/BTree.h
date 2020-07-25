@@ -9,7 +9,61 @@ namespace LMSLib
 template <typename T>
 class BTree : public Tree<T>
 {
-private:
+protected:
+    BTreeNode<T>* find(BTreeNode<T>* node, const T& value) const
+    {
+        BTreeNode<T>* ret = NULL;
+        if(NULL != node)
+        {
+            if(value == node->m_value)
+            {
+                ret = node;
+            }
+            else
+            {
+                if(NULL == ret)
+                {
+                    ret = find(node->m_left, value);
+                }
+
+                if(NULL == ret)
+                {
+                    ret = find(node->m_right, value);
+                }
+            } 
+        }
+
+        return ret;
+    }
+
+    BTreeNode<T>* find(BTreeNode<T>* node, BTreeNode<T>* value) const
+    {
+        BTreeNode<T>* ret = NULL;
+
+        if(NULL != node)
+        {
+            if(node == value)
+            {
+                ret = node;
+            }
+            else
+            {
+                if(NULL == ret)
+                {
+                    ret = find(node->m_left, value);
+                }
+
+                if(NULL == ret)
+                {
+                    ret = find(node->m_right, value);
+                }
+            }
+        }
+        return ret;
+    }
+
+
+
 
 public:
     BTree()
@@ -43,12 +97,12 @@ public:
 
     BTreeNode<T>* find(const T& value) const
     {
-        return NULL;
+        return find(root(), value);
     }
 
     BTreeNode<T>* find(TreeNode<T>* node) const
     {
-        return NULL;
+        return find( root(), dynamic_cast<BTreeNode<T>*>(node) );
     }
 
     BTreeNode<T>* root() const

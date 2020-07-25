@@ -101,6 +101,10 @@ int main(int argc, char* argv[])
         cout << endl;
 
         BTree<int> bt;
+        BTreeNode<int> btn;
+
+        cout << bt.find(1) << endl;
+        cout << bt.find(&btn) << endl;
 
     }
     catch(Exception& e)
