@@ -256,6 +256,35 @@ protected:
         }
     }
 
+    BTreeNode<T>* clone(BTreeNode<T>* node) const
+    {
+        BTreeNode<T>* ret = NULL;
+        if(NULL != node)
+        {
+            ret = BTreeNode<T>::NewNode();
+            if(ret != NULL)
+            {
+                ret->m_value = node->m_value;
+                ret->m_left = clone(node->m_left);
+                ret->m_right = clone(node->m_right);
+
+                if(NULL != ret->m_left)
+                {
+                    ret->m_left->m_parent = ret;
+                }
+                if(NULL != ret->m_right)
+                {
+                    ret->m_right->m_parent = ret;
+                }
+            }
+            else
+            {
+                THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memery to New BTreeNode...");
+            }      
+        }
+        return ret;
+    }
+
     LinkQueue<BTreeNode<T>*> m_queue;
 
 public:
@@ -450,6 +479,21 @@ public:
             traversal(root(), queue, mod);
         }
         return queue;
+    }
+
+    SharedPointer<BTree<T> > clone() const
+    {
+        BTree<T>* btree = new BTree<T>();
+        if( NULL == btree )
+        {
+            THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memery to new BTree...");
+        }
+
+        btree->m_root = clone(root());
+        btree->m_root->m_parent = NULL;
+
+
+        return btree;
     }
 };
 

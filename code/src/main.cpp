@@ -80,11 +80,13 @@ int main(int argc, char* argv[])
         bt.insert(6, btn);
         bt.insert(7, btn);
 
-        cout << "bt.count() = " << bt.count() << endl;
-        cout << "bt.height() = " << bt.height() << endl;
-        cout << "bt.degree() = " << bt.degree() << endl;
+        SharedPointer<BTree<int> > btclone = bt.clone();
 
-        SharedPointer<LinkQueue<int> > queue = bt.traversal(FIRST);
+        cout << "btclone.count() = " << btclone->count() << endl;
+        cout << "btclone.height() = " << btclone->height() << endl;
+        cout << "btclone.degree() = " << btclone->degree() << endl;
+
+        SharedPointer<LinkQueue<int> > queue = btclone->traversal(FIRST);
 
         while(queue->length() > 0)
         {
@@ -93,7 +95,7 @@ int main(int argc, char* argv[])
         }
         cout << endl;
 
-        SharedPointer<LinkQueue<int> > queue1 = bt.traversal(MIDDLE);
+        SharedPointer<LinkQueue<int> > queue1 = btclone->traversal(MIDDLE);
 
         while(queue1->length() > 0)
         {
@@ -102,7 +104,7 @@ int main(int argc, char* argv[])
         }
         cout << endl;
 
-        SharedPointer<LinkQueue<int> > queue2 = bt.traversal(LAST);
+        SharedPointer<LinkQueue<int> > queue2 = btclone->traversal(LAST);
 
         while(queue2->length() > 0)
         {
