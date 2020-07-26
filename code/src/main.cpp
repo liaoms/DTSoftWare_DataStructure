@@ -84,9 +84,30 @@ int main(int argc, char* argv[])
         cout << "bt.height() = " << bt.height() << endl;
         cout << "bt.degree() = " << bt.degree() << endl;
 
-        for(bt.begin(); !bt.end(); bt.next())
+        SharedPointer<LinkQueue<int> > queue = bt.traversal(FIRST);
+
+        while(queue->length() > 0)
         {
-            cout << bt.current() << " ";
+            cout << queue->front() << " ";
+            queue->remove();
+        }
+        cout << endl;
+
+        SharedPointer<LinkQueue<int> > queue1 = bt.traversal(MIDDLE);
+
+        while(queue1->length() > 0)
+        {
+            cout << queue1->front() << " ";
+            queue1->remove();
+        }
+        cout << endl;
+
+        SharedPointer<LinkQueue<int> > queue2 = bt.traversal(LAST);
+
+        while(queue2->length() > 0)
+        {
+            cout << queue2->front() << " ";
+            queue2->remove();
         }
 
         cout << endl;

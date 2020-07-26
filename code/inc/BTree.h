@@ -4,6 +4,7 @@
 #include "BTreeNode.h"
 #include "Tree.h"
 #include "LinkQueue.h"
+#include "DynamicArray.h"
 
 namespace LMSLib
 {
@@ -13,6 +14,14 @@ namespace LMSLib
         LEFT,
         RIGHT
     };
+
+    enum BTTraversal 
+    {
+        FIRST,
+        MIDDLE,
+        LAST
+    };
+
 template <typename T>
 class BTree : public Tree<T>
 {
@@ -218,6 +227,35 @@ protected:
         return ret;
     }
 
+    void traversal(BTreeNode<T>* node, LinkQueue<T>*& queue, BTTraversal mod)
+    {
+        if(NULL != node)
+        {
+            if(FIRST == mod)
+            {
+                queue->add(node->m_value);
+                traversal(node->m_left, queue, mod);
+                traversal(node->m_right, queue, mod);
+            }
+            else if (MIDDLE == mod)
+            {
+                traversal(node->m_left, queue, mod);
+                queue->add(node->m_value);
+                traversal(node->m_right, queue, mod);
+            }
+            else if(LAST == mod)
+            {
+                traversal(node->m_left, queue, mod);
+                traversal(node->m_right, queue, mod);
+                queue->add(node->m_value);
+            }
+            else
+            {
+                THROW_EXCEPTION(InvalidParaException, "Invalid Param Input...");
+            }
+        }
+    }
+
     LinkQueue<BTreeNode<T>*> m_queue;
 
 public:
@@ -397,6 +435,21 @@ public:
         {
             return m_queue.front()->m_value;
         }
+    }
+
+    SharedPointer<LinkQueue<T> > traversal(BTTraversal mod)
+    {
+        LinkQueue<T>* queue = new LinkQueue<T>();
+        if(NULL == queue)
+        {
+            THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memery to new DynamicArray...");
+        }
+
+        if(NULL != root())
+        {
+            traversal(root(), queue, mod);
+        }
+        return queue;
     }
 };
 
