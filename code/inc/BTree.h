@@ -3,6 +3,7 @@
 
 #include "BTreeNode.h"
 #include "Tree.h"
+#include "LinkQueue.h"
 
 namespace LMSLib
 {
@@ -217,10 +218,12 @@ protected:
         return ret;
     }
 
+    LinkQueue<BTreeNode<T>*> m_queue;
+
 public:
     BTree()
     {
-
+        m_queue.clear();
     }
 
     bool insert(const T& value, TreeNode<T>* parent)
@@ -295,6 +298,7 @@ public:
         {
             remove(node, ret);
         }
+        m_queue.clear();
 
         return ret;
     }
@@ -308,6 +312,7 @@ public:
         }
 
         remove(dynamic_cast<BTreeNode<T>*>(node), ret);
+        m_queue.clear();
         return ret;
     }
 
@@ -345,6 +350,53 @@ public:
     {   
         free(root());
         this->m_root = NULL;
+        m_queue.clear();
+    }
+
+    void begin()
+    {       
+        if(NULL != root())
+        {
+            m_queue.clear();
+            m_queue.add(root());
+        }
+    }
+
+    void next()
+    {
+        if( m_queue.length() > 0 )
+        {
+            BTreeNode<T>* front = m_queue.front();
+
+            if(NULL != front)
+            {
+                if(NULL != front->m_left)
+                {
+                    m_queue.add(front->m_left);
+                }
+
+                if(NULL != front->m_right)
+                {
+                    m_queue.add(front->m_right);
+                }
+
+                m_queue.remove();
+            }
+        }
+        
+    }
+
+    bool end()
+    {
+        return 0 == m_queue.length();
+    }
+
+    T current()
+    {
+        if(m_queue.length() > 0)
+        {
+            return m_queue.front()->m_value;
+        }
     }
 };
 

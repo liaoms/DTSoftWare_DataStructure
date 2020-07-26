@@ -84,24 +84,12 @@ int main(int argc, char* argv[])
         cout << "bt.height() = " << bt.height() << endl;
         cout << "bt.degree() = " << bt.degree() << endl;
 
-        int array[] = {8,9,10,6,7};
-
-        SharedPointer<Tree<int> > ret = bt.remove(2);
-
-        for(int i=0; i<sizeof(array)/sizeof(int); i++)
+        for(bt.begin(); !bt.end(); bt.next())
         {
-            TreeNode<int>* node = bt.find(array[i]);
-
-            if(node)
-            {
-                while(node)
-                {
-                    cout << node->m_value << " ";
-                    node = node->m_parent;
-                }
-                cout << endl;
-            }
+            cout << bt.current() << " ";
         }
+
+        cout << endl;
 
     }
     catch(Exception& e)
