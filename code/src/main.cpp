@@ -82,36 +82,15 @@ int main(int argc, char* argv[])
 
         SharedPointer<BTree<int> > btclone = bt.clone();
 
-        cout << "bt == btclone = " << (bt == *btclone) << endl;
+        SharedPointer<Tree<int> > del =  bt.remove(3);
 
-        cout << "btclone.count() = " << btclone->count() << endl;
-        cout << "btclone.height() = " << btclone->height() << endl;
-        cout << "btclone.degree() = " << btclone->degree() << endl;
+        SharedPointer<BTree<int> > addtree = bt.add(*btclone);
 
-        SharedPointer<LinkQueue<int> > queue = btclone->traversal(FIRST);
+        cout << "count = " << addtree->count() << endl;
 
-        while(queue->length() > 0)
+        for(addtree->begin(); !addtree->end(); addtree->next())
         {
-            cout << queue->front() << " ";
-            queue->remove();
-        }
-        cout << endl;
-
-        SharedPointer<LinkQueue<int> > queue1 = btclone->traversal(MIDDLE);
-
-        while(queue1->length() > 0)
-        {
-            cout << queue1->front() << " ";
-            queue1->remove();
-        }
-        cout << endl;
-
-        SharedPointer<LinkQueue<int> > queue2 = btclone->traversal(LAST);
-
-        while(queue2->length() > 0)
-        {
-            cout << queue2->front() << " ";
-            queue2->remove();
+            cout << addtree->current() << " ";
         }
 
         cout << endl;

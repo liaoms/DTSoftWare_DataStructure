@@ -316,6 +316,46 @@ protected:
         return ret;        
     }
 
+    BTreeNode<T>* add(BTreeNode<T>* node1, BTreeNode<T>* node2)
+    {
+        BTreeNode<T>* ret = NULL;
+        if( (node1 != NULL ) && (node2 != NULL) )
+        {
+            ret = BTreeNode<T>::NewNode();
+            if(NULL != ret)
+            {
+                ret->m_value = node1->m_value + node2->m_value;
+
+                BTreeNode<T>* lbtn = add(node1->m_left, node2->m_left);
+                BTreeNode<T>* rbtn = add(node1->m_right, node2->m_right);
+
+                if(NULL != lbtn)
+                {
+                    ret->m_left = lbtn;
+                    lbtn->m_parent = ret;
+                }
+                if(NULL != rbtn)
+                {
+                    ret->m_right = rbtn;
+                    rbtn->m_parent = ret;
+                }
+            }
+            else
+            {
+                THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memery to new BTreeNode...");
+            }
+        }
+        else if ( (NULL == node1) && (NULL != node2) )
+        {
+            ret = clone(node2);
+        }
+        else if( (NULL != node1) && (NULL == node2) )
+        {
+            ret = clone(node1);
+        }
+        return ret;
+    }
+
     LinkQueue<BTreeNode<T>*> m_queue;
 
 public:
@@ -535,6 +575,21 @@ public:
     bool operator != (BTree<T>& obj)
     {
         return (true != equal(root(), obj.root()));
+    }
+
+    SharedPointer<BTree<T> > add(BTree<T>& obj)
+    {
+        BTree<T>* ret = new BTree<T>();
+        if(NULL != ret)
+        {
+            ret->m_root = add(root(), obj.root());
+            ret->m_root->m_parent = NULL;
+        }
+        else
+        {
+            THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memrey to new BTree...");
+        }
+        return ret;
     }
 };
 
