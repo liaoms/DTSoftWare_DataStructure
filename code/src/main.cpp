@@ -82,6 +82,8 @@ int main(int argc, char* argv[])
 
         SharedPointer<BTree<int> > btclone = bt.clone();
 
+        cout << "bt == btclone = " << (bt == *btclone) << endl;
+
         cout << "btclone.count() = " << btclone->count() << endl;
         cout << "btclone.height() = " << btclone->height() << endl;
         cout << "btclone.degree() = " << btclone->degree() << endl;

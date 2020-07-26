@@ -285,6 +285,37 @@ protected:
         return ret;
     }
 
+    bool equal(BTreeNode<T>* Node, BTreeNode<T>* objNode)
+    {
+        bool ret = true;
+        if(Node == objNode)
+        {
+            ret = true;
+        }
+        else if( (Node != NULL) && (objNode != NULL) )
+        {
+            if(Node->m_value == objNode->m_value)
+            {
+                ret = ret && equal(Node->m_left, objNode->m_left);
+                ret = ret && equal(Node->m_right, objNode->m_right);
+            }
+            else
+            {
+                ret = false;
+            }
+        }
+        else if ( (Node != NULL) && (objNode == NULL) )
+        {
+            ret = false;
+        }
+        else if ( (Node == NULL) && (objNode != NULL) )
+        {
+            ret = false;
+        }
+        
+        return ret;        
+    }
+
     LinkQueue<BTreeNode<T>*> m_queue;
 
 public:
@@ -494,6 +525,16 @@ public:
 
 
         return btree;
+    }
+
+    bool operator == (BTree<T>& obj)
+    {
+        return (true == equal(root(), obj.root()));
+    }
+
+    bool operator != (BTree<T>& obj)
+    {
+        return (true != equal(root(), obj.root()));
     }
 };
 
