@@ -366,7 +366,7 @@ protected:
         return ret;
     }
 
-    //算法:删除单度节点(只有1个孩子的节点)
+    //算法 - 删除单度节点(只有1个孩子的节点)
     void removeSignalDegree(BTreeNode<T>* node)
     {
         bool ret = (NULL != node);
@@ -433,6 +433,53 @@ protected:
                     node = NULL;
                 }
                 
+            }
+        }
+    }
+
+    //算法 - 删除单度节点(节点不包括父节点指针)
+    void removeSignalDegree1(BTreeNode<T>*& node)
+    {
+        if(NULL != node)
+        {
+            BTreeNode<T>* toDel = node;
+
+            if( (node->m_left != NULL) && (node->m_right == NULL) )
+            {
+                node = node->m_left;
+                
+                if(toDel == this->m_root)
+                {
+                    this->m_root = node;
+                }
+
+                if(toDel->flag())
+                {
+                    delete toDel;
+                    toDel = NULL;
+                }
+                removeSignalDegree1(node);
+            }
+            else if ( (node->m_left == NULL) && (node->m_right != NULL) )
+            {
+                node = node->m_right;
+
+                if(toDel == this->m_root)
+                {
+                    this->m_root = node;
+                }
+
+                if(toDel->flag())
+                {
+                    delete toDel;
+                    toDel = NULL;
+                }
+                removeSignalDegree1(node);
+            }
+            else
+            {
+                removeSignalDegree1(node->m_left);
+                removeSignalDegree1(node->m_right);
             }
         }
     }
@@ -724,9 +771,17 @@ public:
         return ret;
     }
 
+    //算法 - 删除单度节点
     void removeSignalDegree()
     {
         removeSignalDegree(root());
+    }
+
+    //算法 - 删除单度节点(节点不包括父节点指针)
+    void removeSignalDegree1()
+    {
+        BTreeNode<T>* root1 = root();
+        removeSignalDegree1(root1);
     }
 };
 

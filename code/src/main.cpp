@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
 
         //bt.remove(2);
         bt.remove(6);
-        bt.removeSignalDegree();
+        bt.removeSignalDegree1();
 
         SharedPointer<LinkQueue<int> > queue = bt.traversal(LEVEL);
 
