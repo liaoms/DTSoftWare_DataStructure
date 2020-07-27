@@ -366,6 +366,77 @@ protected:
         return ret;
     }
 
+    //算法:删除单度节点(只有1个孩子的节点)
+    void removeSignalDegree(BTreeNode<T>* node)
+    {
+        bool ret = (NULL != node);
+        if(ret)
+        {
+            removeSignalDegree(node->m_left);
+            removeSignalDegree(node->m_right);
+
+            if( (node->m_left != NULL) && (node->m_right == NULL))
+            {
+                
+                //BTreeNode<T>* lDel = node;
+                node->m_left->m_parent = node->m_parent;
+
+                if(NULL == node->m_parent)
+                {
+                    this->m_root = node->m_left;
+                }
+                else
+                {
+                    if( node == dynamic_cast<BTreeNode<T>*>(node->m_parent)->m_left )
+                    {
+                        dynamic_cast<BTreeNode<T>*>(node->m_parent)->m_left = node->m_left;
+                    }
+                    else if (node == dynamic_cast<BTreeNode<T>*>(node->m_parent)->m_right )
+                    {
+                        dynamic_cast<BTreeNode<T>*>(node->m_parent)->m_right = node->m_left;
+                    }
+
+                    node->m_parent = NULL;
+                }
+                
+                if(node->flag())
+                {
+                    delete node;
+                    node = NULL;
+                }
+                
+            }
+            else if ((node->m_left == NULL) && (node->m_right != NULL))
+            {
+                node->m_right->m_parent = node->m_parent;
+
+                if(NULL == node->m_parent)
+                {
+                    this->m_root = node->m_right;
+                }
+                else
+                {
+                    if( node == dynamic_cast<BTreeNode<T>*>(node->m_parent)->m_left )
+                    {
+                        dynamic_cast<BTreeNode<T>*>(node->m_parent)->m_left = node->m_right;
+                    }
+                    else if (node == dynamic_cast<BTreeNode<T>*>(node->m_parent)->m_right )
+                    {
+                        dynamic_cast<BTreeNode<T>*>(node->m_parent)->m_right = node->m_right;
+                    }
+                    node->m_parent = NULL;
+                }
+                
+                if(node->flag())
+                {
+                    delete node;
+                    node = NULL;
+                }
+                
+            }
+        }
+    }
+
     LinkQueue<BTreeNode<T>*> m_queue;
 
 public:
@@ -651,6 +722,11 @@ public:
             this->m_root = NULL;
         }
         return ret;
+    }
+
+    void removeSignalDegree()
+    {
+        removeSignalDegree(root());
     }
 };
 

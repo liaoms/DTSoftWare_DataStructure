@@ -80,6 +80,10 @@ int main(int argc, char* argv[])
         bt.insert(6, btn);
         bt.insert(7, btn);
 
+        //bt.remove(2);
+        bt.remove(6);
+        bt.removeSignalDegree();
+
         SharedPointer<LinkQueue<int> > queue = bt.traversal(LEVEL);
 
         while(queue->length() > 0)
@@ -87,23 +91,18 @@ int main(int argc, char* argv[])
             cout << queue->front()<< " ";
             queue->remove();
         }
-
         cout << endl;
 
         BTreeNode<int>* node = bt.thread(LEVEL);
 
-        while(NULL != node->m_right)
-        {
-            node = node->m_right;
-        }
-
         while(NULL != node)
         {
             cout << node->m_value << " ";
-            node = node->m_left;
+            node = node->m_right;
         }
-
         cout << endl;
+
+        
     }
     catch(Exception& e)
     {
