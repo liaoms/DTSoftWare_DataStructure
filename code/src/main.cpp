@@ -80,21 +80,30 @@ int main(int argc, char* argv[])
         bt.insert(6, btn);
         bt.insert(7, btn);
 
-        SharedPointer<BTree<int> > btclone = bt.clone();
+        SharedPointer<LinkQueue<int> > queue = bt.traversal(LEVEL);
 
-        SharedPointer<Tree<int> > del =  bt.remove(3);
-
-        SharedPointer<BTree<int> > addtree = bt.add(*btclone);
-
-        cout << "count = " << addtree->count() << endl;
-
-        for(addtree->begin(); !addtree->end(); addtree->next())
+        while(queue->length() > 0)
         {
-            cout << addtree->current() << " ";
+            cout << queue->front()<< " ";
+            queue->remove();
         }
 
         cout << endl;
 
+        BTreeNode<int>* node = bt.thread(LEVEL);
+
+        while(NULL != node->m_right)
+        {
+            node = node->m_right;
+        }
+
+        while(NULL != node)
+        {
+            cout << node->m_value << " ";
+            node = node->m_left;
+        }
+
+        cout << endl;
     }
     catch(Exception& e)
     {

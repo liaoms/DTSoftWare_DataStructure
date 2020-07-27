@@ -10,16 +10,17 @@ namespace LMSLib
 {
     enum BTreePos
     {
-        ANY,
-        LEFT,
-        RIGHT
+        ANY,    //插入任意位置
+        LEFT,   //插入左节点
+        RIGHT   //插入右节点
     };
 
     enum BTTraversal 
     {
-        FIRST,
-        MIDDLE,
-        LAST
+        FIRST,  //前序遍历
+        MIDDLE, //中序遍历
+        LAST,   //后续遍历
+        LEVEL   //层次遍历
     };
 
 template <typename T>
@@ -227,32 +228,41 @@ protected:
         return ret;
     }
 
-    void traversal(BTreeNode<T>* node, LinkQueue<T>*& queue, BTTraversal mod)
+    //二叉树遍历
+    void traversal(BTreeNode<T>* node, LinkQueue<BTreeNode<T>*>& queue, BTTraversal mod)
     {
         if(NULL != node)
         {
             if(FIRST == mod)
             {
-                queue->add(node->m_value);
+                queue.add(node);
                 traversal(node->m_left, queue, mod);
                 traversal(node->m_right, queue, mod);
             }
             else if (MIDDLE == mod)
             {
                 traversal(node->m_left, queue, mod);
-                queue->add(node->m_value);
+                queue.add(node);
                 traversal(node->m_right, queue, mod);
             }
             else if(LAST == mod)
             {
                 traversal(node->m_left, queue, mod);
                 traversal(node->m_right, queue, mod);
-                queue->add(node->m_value);
+                queue.add(node);
+            }
+            else if(LEVEL == mod)
+            {
+                for(begin(); !end(); next())
+                {
+                    queue.add(currentNode());
+                }
             }
             else
             {
                 THROW_EXCEPTION(InvalidParaException, "Invalid Param Input...");
             }
+            
         }
     }
 
@@ -537,19 +547,37 @@ public:
         }
     }
 
+    BTreeNode<T>* currentNode()
+    {
+        if(m_queue.length() > 0)
+        {
+            return m_queue.front();
+        }
+    }
+
     SharedPointer<LinkQueue<T> > traversal(BTTraversal mod)
     {
-        LinkQueue<T>* queue = new LinkQueue<T>();
-        if(NULL == queue)
+        LinkQueue<BTreeNode<T>*> queue;
+        LinkQueue<T>* ret = new LinkQueue<T>();
+        if( (NULL == ret) )
         {
-            THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memery to new DynamicArray...");
+            THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memery to new LinkQueue...");
+            delete ret;
+            ret = NULL;
         }
 
         if(NULL != root())
         {
             traversal(root(), queue, mod);
         }
-        return queue;
+
+        while(queue.length() > 0)
+        {
+            ret->add(queue.front()->m_value);
+            queue.remove();
+        }   
+
+        return ret;
     }
 
     SharedPointer<BTree<T> > clone() const
@@ -588,6 +616,39 @@ public:
         else
         {
             THROW_EXCEPTION(NoEnoughMemeryException, "No Enough Memrey to new BTree...");
+        }
+        return ret;
+    }
+
+    //二叉树线索化(将遍历后的结果转化成双向列表)
+    BTreeNode<T>* thread(BTTraversal mod)
+    {
+        BTreeNode<T>* ret = NULL;
+
+        LinkQueue<BTreeNode<T>*> queue;
+
+        if(NULL != root())
+        {
+            traversal(root(), queue, mod);
+        }
+
+        if(queue.length() > 0)
+        {
+            BTreeNode<T>* slider = queue.front();
+            slider->m_left = NULL;
+            ret = slider;
+            queue.remove();
+
+            while(queue.length()> 0)
+            {
+                slider->m_right = queue.front();
+                queue.front()->m_left = slider;
+                slider = queue.front();
+                queue.remove();
+            }
+            slider->m_right = NULL;
+            m_queue.clear();    //线索化后树结构已变, 队列及根节点需要清空
+            this->m_root = NULL;
         }
         return ret;
     }
